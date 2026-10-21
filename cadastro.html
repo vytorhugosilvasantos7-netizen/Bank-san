@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Abra sua conta na San e dê o próximo passo nos seus investimentos.">
+    <meta name="theme-color" content="#060606">
+    <title>Abra sua conta | San</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <link rel="stylesheet" href="../css/market-bg.css">
+</head>
+<body>
+    <!-- Fundo animado: candles, linhas de cotação, malha em perspectiva e feixe de luz (js/market-bg.js) -->
+    <div class="market-bg" aria-hidden="true">
+        <canvas data-market-bg></canvas>
+    </div>
+
+    <main class="signup">
+        <section class="welcome" aria-labelledby="welcome-title">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">B</span>
+                <span>BANK-SAN<span class="brand-detail"> investimentos</span></span>
+            </div>
+
+            <div class="welcome-copy">
+                <span class="eyebrow">O próximo passo é seu</span>
+                <h1 id="welcome-title">Seu futuro começa com uma <em>boa escolha.</em></h1>
+                <p>Abra sua conta e descubra um jeito mais simples de cuidar dos seus investimentos.</p>
+            </div>
+
+            <div class="welcome-note">
+                <span class="note-icon" aria-hidden="true">↗</span>
+                <p><strong>Invista no seu ritmo.</strong><br>Planos claros para os seus objetivos.</p>
+            </div>
+        </section>
+
+        <section class="form-area" aria-labelledby="form-title">
+            <div class="form-card">
+                <div class="form-heading">
+                    <span class="step-label">COMECE POR AQUI</span>
+                    <h2 id="form-title">Crie sua conta</h2>
+                    <p>Preencha seus dados para começar.</p>
+                </div>
+
+                <form action="" method="post">
+                    <div class="field">
+                        <label for="full-name">Nome completo</label>
+                        <input id="full-name" name="fullName" type="text" placeholder="Como está no seu documento" autocomplete="name" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <input id="email" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="cpf">CPF</label>
+                            <input id="cpf" name="cpf" type="text" inputmode="numeric" placeholder="Somente números" autocomplete="off" minlength="11" maxlength="11" pattern="[0-9]{11}" title="Digite os 11 números do CPF, sem pontos ou traço." required>
+                        </div>
+                        <div class="field">
+                            <label for="phone">Celular</label>
+                            <input id="phone" name="phone" type="tel" placeholder="(11) 99999-9999" autocomplete="tel" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Crie uma senha</label>
+                        <input id="password" name="password" type="password" placeholder="Pelo menos 8 caracteres" autocomplete="new-password" minlength="8" maxlength="64" aria-describedby="password-hint" required>
+                        <span class="field-hint" id="password-hint">Use pelo menos 8 caracteres.</span>
+                    </div>
+
+                    <label class="consent">
+                        <input type="checkbox" name="adultConfirmation" required>
+                        <span>Confirmo que tenho 18 anos ou mais.</span>
+                    </label>
+
+                    <button class="submit-button" type="submit">
+                        <span>Criar minha conta</span>
+                        <span class="arrow" aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p class="security-note"><span aria-hidden="true">●</span> Nunca compartilhe sua senha.</p>
+                <p class="login-link">Já tem conta? <a href="entrada.html">Entrar</a></p>
+            </div>
+        </section>
+    </main>
+
+    <section class="about" aria-labelledby="about-title">
+        <div class="about-inner">
+            <div class="about-heading">
+                <span class="eyebrow">Sobre a BANK-SAN</span>
+                <h2 id="about-title">Mais clareza para pensar no seu <em>futuro.</em></h2>
+                <p>
+                    A BANK-SAN é uma proposta para aproximar você do universo dos investimentos,
+                    com informação acessível e espaço para conhecer melhor suas opções.
+                </p>
+            </div>
+
+            <div class="card-explainer">
+                <div class="card-preview" data-card-preview aria-live="polite">
+                    <div class="demo-card demo-card-placeholder" data-card-placeholder aria-label="Prévia do cartão. Selecione um banco para começar.">
+                        <span class="placeholder-mark" aria-hidden="true">B</span>
+                        <span class="placeholder-title">Seu cartão aparece aqui</span>
+                        <span class="placeholder-copy">Escolha um banco para ver o modelo ilustrativo</span>
+                    </div>
+                    <article class="demo-card" data-tilt-card data-bank="bank-san" aria-label="Prévia ilustrativa de cartão" hidden>
+                        <div class="demo-card-top">
+                            <div class="demo-card-logo">
+                                <span class="demo-card-mark" data-card-mark aria-hidden="true">B</span>
+                                <span class="demo-card-wordmark" data-card-wordmark>BANK-SAN</span>
+                            </div>
+                            <span class="demo-card-type">PRÉVIA<br>ILUSTRATIVA</span>
+                        </div>
+                        <div class="demo-card-middle" aria-hidden="true">
+                            <span class="demo-card-chip"><span></span></span>
+                            <svg class="demo-card-contactless" viewBox="0 0 24 24" fill="none">
+                                <path d="M8 8.5a5 5 0 0 1 0 7M11 6a8.5 8.5 0 0 1 0 12M14 3.5a12 12 0 0 1 0 17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="demo-card-bottom">
+                            <div>
+                                <span class="demo-card-label">NOME DE EXIBIÇÃO</span>
+                                <p data-card-holder>SEU NOME</p>
+                                <p class="demo-card-number">•••• &nbsp;•••• &nbsp;•••• &nbsp;••••</p>
+                            </div>
+                            <div class="demo-card-brand">
+                                <span class="demo-card-bank" data-card-bank>BANK-SAN</span>
+                                <span class="demo-card-network">APENAS DEMONSTRAÇÃO</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="card-explanation">
+                    <span class="about-number">EXEMPLO VISUAL</span>
+                    <h3>Veja o visual do seu banco</h3>
+                    <p>
+                        Selecione um banco para ver um cartão conceitual com cores inspiradas nele.
+                        Personalize o nome exibido e mova o cursor sobre o cartão para ver o efeito 3D.
+                    </p>
+                    <div class="card-controls">
+                        <div class="card-field">
+                            <label for="bank-select">Escolha seu banco</label>
+                            <select id="bank-select" name="bank">
+                                <option value="">Selecione um banco</option>
+                                <option value="itau">Itaú</option>
+                                <option value="bradesco">Bradesco</option>
+                                <option value="santander">Santander</option>
+                                <option value="banco-do-brasil">Banco do Brasil</option>
+                                <option value="caixa">Caixa</option>
+                                <option value="nubank">Nubank</option>
+                                <option value="inter">Inter</option>
+                                <option value="c6">C6 Bank</option>
+                                <option value="bank-san">BANK-SAN</option>
+                            </select>
+                        </div>
+                        <div class="card-field">
+                            <label for="card-holder-input">Nome para exibir (opcional)</label>
+                            <input id="card-holder-input" name="cardHolderDisplay" type="text" maxlength="24" autocomplete="off" placeholder="Ex.: Seu nome" aria-describedby="card-holder-hint">
+                            <span class="card-field-hint" id="card-holder-hint">Esse nome aparece somente na prévia desta página.</span>
+                        </div>
+                    </div>
+                    <p class="card-disclaimer">
+                        É um desenho conceitual, não um cartão real nem um modelo oficial do banco.
+                        Não informe número de cartão, senha, CVV, conta ou qualquer dado bancário.
+                    </p>
+                </div>
+            </div>
+
+            <div class="about-cards">
+                <article class="about-card">
+                    <span class="about-number">01</span>
+                    <h3>Comece pelos seus objetivos</h3>
+                    <p>
+                        Organize o que é importante para você e use isso como ponto de partida
+                        para aprender sobre planejamento financeiro.
+                    </p>
+                </article>
+                <article class="about-card">
+                    <span class="about-number">02</span>
+                    <h3>Conheça antes de escolher</h3>
+                    <p>
+                        Entenda como cada alternativa funciona, quais são as condições e quais
+                        riscos podem estar envolvidos antes de tomar uma decisão.
+                    </p>
+                </article>
+                <article class="about-card">
+                    <span class="about-number">03</span>
+                    <h3>Faça escolhas conscientes</h3>
+                    <p>
+                        Investir envolve riscos e não há promessa de retorno. Avalie suas
+                        necessidades e procure orientação adequada quando precisar.
+                    </p>
+                </article>
+            </div>
+
+            <a class="about-link" href="#form-title">Quero conhecer a BANK-SAN <span aria-hidden="true">↑</span></a>
+        </div>
+    </section>
+    <section class="logo-marquee" aria-label="BANK-SAN e perfis profissionais">
+        <div class="marquee-track">
+            <div class="marquee-group">
+                <div class="marquee-logo bank-logo" aria-label="Logo BANK-SAN">
+                    <span class="marquee-bank-mark" aria-hidden="true">B</span>
+                    <span class="marquee-bank-name">BANK-SAN<span>investimentos</span></span>
+                </div>
+                <a class="marquee-logo linkedin-logo" href="https://www.linkedin.com/in/vytor-hugo-silva-santos-27a319428" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de Vytor Hugo no LinkedIn (abre em nova aba)">
+                    <span class="linkedin-mark" aria-hidden="true">in</span>
+                    <span>LinkedIn</span>
+                </a>
+                <a class="marquee-logo github-logo" href="https://github.com/vytorhugosilvasantos7-netizen" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de Vytor Hugo no GitHub (abre em nova aba)">
+                    <span class="github-mark" aria-hidden="true">GH</span>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <script src="../js/bank-card-preview.js" defer></script>
+    <script src="../js/tilt-card.js" defer></script>
+    <script src="../js/market-bg.js" defer></script>
+</body>
+</html>

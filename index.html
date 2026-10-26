@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank-San | Início</title>
+  <link rel="stylesheet" href="src/css/cartao.css">
+  <link rel="stylesheet" href="src/css/inicio.css">
+  <script src="src/js/grafico.js" defer></script>
+  <script src="src/js/cartoes.js" defer></script>
+  <script src="src/js/inicio.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="src/js/supabase-config.js" defer></script>
+  <script src="src/js/app-dados.js" defer></script>
+</head>
+<body>
+  <div class="app">
+
+    <!-- MENU LATERAL ESQUERDO -->
+    <aside class="sidebar">
+      <button class="profile" id="btnPerfil" type="button" aria-label="Abrir configurações">
+        <span class="profile-photo" id="fotoPerfil">V</span>
+        <span class="profile-name">Seu nome</span>
+      </button>
+
+      <nav class="menu" aria-label="Menu principal">
+        <button class="menu-item is-active" type="button" data-view="inicio">Início</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <!-- ========== VIEW: INÍCIO ========== -->
+      <section class="view is-active" id="view-inicio">
+
+        <div class="row row-2">
+          <!-- Gráfico de investimentos (metade da tela) -->
+          <article class="card" id="cardGrafico">
+            <header class="card-head">
+              <h2>Meus investimentos</h2>
+              <span class="badge" id="badgeResultado">+0,00%</span>
+            </header>
+            <p class="chart-name" id="chartName"></p>
+            <p class="big-value" id="valorTotal">-</p>
+            <div class="chart" id="chartInvest"></div>
+          </article>
+
+          <!-- Registro de gastos -->
+          <article class="card" id="cardGastos">
+            <header class="card-head">
+              <h2>Meus gastos</h2>
+              <span class="card-actions">
+                <button class="btn-small" type="button" id="btnNovoCartao">Adicionar cartão</button>
+                <button class="btn-small" type="button" id="btnNovoGasto">Registrar gasto</button>
+              </span>
+            </header>
+
+            <div class="cartao-area">
+              <article class="demo-card" id="cartaoAtual" data-bank="bank-san" aria-live="polite">
+                <div class="demo-card-top">
+                  <div class="demo-card-logo">
+                    <span class="demo-card-mark" data-card-mark aria-hidden="true">B</span>
+                    <span class="demo-card-wordmark" data-card-wordmark>BANK-SAN</span>
+                  </div>
+                  <span class="demo-card-type" data-card-type>CRÉDITO</span>
+                </div>
+                <div class="demo-card-middle" aria-hidden="true">
+                  <span class="demo-card-chip"><span></span></span>
+                  <svg class="demo-card-contactless" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 8.5a5 5 0 0 1 0 7M11 6a8.5 8.5 0 0 1 0 12M14 3.5a12 12 0 0 1 0 17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="demo-card-bottom">
+                  <div>
+                    <span class="demo-card-label">TITULAR</span>
+                    <p data-card-holder>SEU NOME</p>
+                    <p class="demo-card-number" data-card-number>•••• &nbsp;•••• &nbsp;•••• &nbsp;••••</p>
+                  </div>
+                  <div class="demo-card-brand">
+                    <span class="demo-card-bank" data-card-bank>BANK-SAN</span>
+                    <span class="demo-card-network" data-card-network></span>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="cartao-tabs" id="cartaoTabs" role="tablist" aria-label="Meus cartões"></div>
+            <p class="exemplo-aviso" id="avisoExemplo" hidden>Exemplo ilustrativo. Use "Adicionar cartão" para ver seus gastos de verdade.</p>
+
+            <div class="expenses-head">
+              <span id="gastosTitulo">Gastos do cartão</span>
+              <strong id="gastosTotal">R$ 0,00</strong>
+            </div>
+            <ul class="expenses" id="listaGastos"></ul>
+          </article>
+        </div>
+
+        <!-- Informações dos bancos -->
+        <div class="row">
+          <article class="card">
+            <header class="card-head"><h2>Bancos e corretoras</h2></header>
+            <div class="banks">
+              <div class="bank"><strong>Nubank</strong><small>Conta e caixinhas</small><span class="rate">0,00% do CDI</span></div>
+              <div class="bank"><strong>Inter</strong><small>Conta e investimentos</small><span class="rate">0,00% do CDI</span></div>
+              <div class="bank"><strong>Itaú</strong><small>Renda fixa</small><span class="rate">0,00% do CDI</span></div>
+              <div class="bank"><strong>XP</strong><small>Corretora</small><span class="rate">0,00% do CDI</span></div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Notícias (largura total) -->
+        <div class="row">
+          <article class="card">
+            <header class="card-head"><h2>Notícias do mercado</h2></header>
+            <div class="news-tabs" role="tablist">
+              <button class="tab is-active" type="button">Ontem</button>
+              <button class="tab" type="button">Hoje</button>
+              <button class="tab" type="button">Amanhã</button>
+            </div>
+            <div class="news-grid">
+              <a class="news-item" href="#"><small>Bolsa</small><h3>Título da notícia sobre a bolsa</h3><p>Resumo curto da notícia.</p></a>
+              <a class="news-item" href="#"><small>Criptomoedas</small><h3>Título da notícia sobre cripto</h3><p>Resumo curto da notícia.</p></a>
+              <a class="news-item" href="#"><small>Juros e inflação</small><h3>Título da notícia sobre Selic e IPCA</h3><p>Resumo curto da notícia.</p></a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Espaço reservado para a próxima ideia -->
+      </section>
+
+      <!-- ========== VIEW: CONFIGURAÇÕES ========== -->
+      <section class="view" id="view-config">
+        <article class="card settings">
+          <header class="card-head"><h2>Configurações</h2></header>
+
+          <div class="setting">
+            <div><strong>Foto de perfil</strong><small>Escolha uma imagem do seu dispositivo</small></div>
+            <label class="btn-small">Escolher foto<input type="file" id="inputFoto" accept="image/*" hidden></label>
+          </div>
+
+          <div class="setting">
+            <div><strong>Tema preto e branco</strong><small>Alterna entre o tema escuro e o claro</small></div>
+            <button class="switch" type="button" id="swTema" role="switch" aria-checked="false" aria-label="Tema preto e branco"></button>
+          </div>
+
+          <div class="setting">
+            <div><strong>Notificações do site</strong><small>Ativar ou desativar avisos</small></div>
+            <button class="switch is-on" type="button" id="swNotif" role="switch" aria-checked="true" aria-label="Notificações"></button>
+          </div>
+
+          <div class="setting">
+            <div><strong>Alterar senha</strong><small>Defina uma nova senha de acesso</small></div>
+            <button class="btn-small" type="button" id="btnSenha">Alterar senha</button>
+          </div>
+
+          <div class="setting">
+            <div><strong>Sair da conta</strong><small>Encerra a sessão neste dispositivo</small></div>
+            <button class="btn-small" type="button" id="btnSair">Sair</button>
+          </div>
+
+          <div class="setting setting-danger">
+            <div><strong>Excluir conta</strong><small>Remove sua conta e seus dados. Não dá para desfazer.</small></div>
+            <button class="btn-small btn-danger" type="button" id="btnExcluir">Excluir conta</button>
+          </div>
+        </article>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- JANELAS (formulários) -->
+  <dialog id="dlgGasto" class="dlg">
+    <form method="dialog" id="formGasto">
+      <h2>Registrar gasto</h2>
+      <p class="dlg-sub" id="gastoCartaoNome"></p>
+      <label>Descrição<input name="descricao" type="text" maxlength="80" required></label>
+      <label>Categoria<input name="categoria" type="text" maxlength="40" placeholder="Ex.: Alimentação"></label>
+      <label>Valor (R$)<input name="valor" type="number" step="0.01" min="0.01" inputmode="decimal" required></label>
+      <label>Data<input name="data" type="date" required></label>
+      <p class="dlg-erro" role="alert"></p>
+      <div class="dlg-botoes">
+        <button class="btn-small" type="button" data-fechar>Cancelar</button>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlgCartao" class="dlg">
+    <form method="dialog" id="formCartao">
+      <h2>Adicionar cartão</h2>
+      <p class="dlg-sub">Guardamos só os 4 últimos dígitos. Nunca digite o número completo.</p>
+      <label>Banco
+        <select name="banco" required>
+          <option value="nubank">Nubank</option>
+          <option value="itau">Itaú</option>
+          <option value="bradesco">Bradesco</option>
+          <option value="santander">Santander</option>
+          <option value="banco-do-brasil">Banco do Brasil</option>
+          <option value="caixa">Caixa</option>
+          <option value="inter">Inter</option>
+          <option value="c6">C6 Bank</option>
+          <option value="bank-san">Bank-San</option>
+        </select>
+      </label>
+      <label>Tipo
+        <select name="tipo" required>
+          <option value="credito">Crédito</option>
+          <option value="debito">Débito</option>
+        </select>
+      </label>
+      <label>Bandeira
+        <select name="bandeira" required>
+          <option>Visa</option><option>Mastercard</option><option>Elo</option><option>Outra</option>
+        </select>
+      </label>
+      <label>Últimos 4 dígitos<input name="final" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required></label>
+      <p class="dlg-erro" role="alert"></p>
+      <div class="dlg-botoes">
+        <button class="btn-small" type="button" data-fechar>Cancelar</button>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlgSenha" class="dlg">
+    <form method="dialog" id="formSenha">
+      <h2>Alterar senha</h2>
+      <label>Nova senha<input name="nova" type="password" minlength="8" maxlength="64" autocomplete="new-password" required></label>
+      <label>Repita a nova senha<input name="repete" type="password" minlength="8" maxlength="64" autocomplete="new-password" required></label>
+      <p class="dlg-erro" role="alert"></p>
+      <div class="dlg-botoes">
+        <button class="btn-small" type="button" data-fechar>Cancelar</button>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

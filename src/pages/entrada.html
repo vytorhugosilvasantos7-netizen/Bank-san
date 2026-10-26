@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Acesse sua conta na BANK-SAN e acompanhe seus investimentos e cartões.">
+    <meta name="theme-color" content="#060606">
+    <title>Entrar na sua conta | BANK-SAN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <link rel="stylesheet" href="../css/market-bg.css">
+</head>
+<body>
+    <!-- Fundo animado: candles, linhas de cotação e malha em perspectiva (js/market-bg.js) -->
+    <div class="market-bg" aria-hidden="true">
+        <canvas data-market-bg></canvas>
+    </div>
+
+    <main class="signup">
+        <section class="welcome" aria-labelledby="welcome-title">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">B</span>
+                <span>BANK-SAN<span class="brand-detail"> investimentos</span></span>
+            </div>
+
+            <div class="welcome-copy">
+                <span class="eyebrow">Acesso à conta</span>
+                <h1 id="welcome-title">Bem-vindo de volta ao <em>seu banco.</em></h1>
+                <p>Acesse seu painel com segurança, acompanhe o rendimento dos seus investimentos e tenha controle dos seus cartões.</p>
+            </div>
+
+            <div class="welcome-note">
+                <span class="note-icon" aria-hidden="true">↗</span>
+                <p><strong>Acesso seguro e criptografado.</strong><br>Seus investimentos e dados protegidos.</p>
+            </div>
+        </section>
+
+        <section class="form-area" aria-labelledby="form-title">
+            <div class="form-card">
+                <div class="form-heading">
+                    <span class="step-label">LOGIN DE ACESSO</span>
+                    <h2 id="form-title">Entrar na conta</h2>
+                    <p>Informe seus dados cadastrados para continuar.</p>
+                </div>
+
+                <form id="form-login" action="" method="post">
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <input id="email" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="field">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <label for="password">Senha</label>
+                            <button type="button" id="btn-esqueci" style="background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer; padding:0; text-decoration:underline;">Esqueci a senha</button>
+                        </div>
+                        <div class="password-wrap">
+                            <input id="password" name="password" type="password" placeholder="Sua senha de acesso" autocomplete="current-password" minlength="6" required>
+                            <button type="button" class="btn-toggle-pass" aria-label="Mostrar ou ocultar senha" title="Mostrar senha">
+                                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="submit-button" type="submit" id="btn-entrar">
+                        <span>Acessar minha conta</span>
+                        <span class="arrow" aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p class="security-note"><span aria-hidden="true">●</span> Ambiente com autenticação criptografada.</p>
+                <p class="login-link">Ainda não tem conta? <a href="cadastro.html">Cadastrar-se</a></p>
+            </div>
+        </section>
+    </main>
+
+    <section class="logo-marquee" aria-label="BANK-SAN e perfis profissionais">
+        <div class="marquee-track">
+            <div class="marquee-group">
+                <div class="marquee-logo bank-logo" aria-label="Logo BANK-SAN">
+                    <span class="marquee-bank-mark" aria-hidden="true">B</span>
+                    <span class="marquee-bank-name">BANK-SAN<span>investimentos</span></span>
+                </div>
+                <a class="marquee-logo linkedin-logo" href="https://www.linkedin.com/in/vytor-hugo-silva-santos-27a319428" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de Vytor Hugo no LinkedIn (abre em nova aba)">
+                    <span class="linkedin-mark" aria-hidden="true">in</span>
+                    <span>LinkedIn</span>
+                </a>
+                <a class="marquee-logo github-logo" href="https://github.com/vytorhugosilvasantos7-netizen" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de Vytor Hugo no GitHub (abre em nova aba)">
+                    <span class="github-mark" aria-hidden="true">GH</span>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/market-bg.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../js/supabase-config.js" defer></script>
+    <script src="../js/auth-entrada.js" defer></script>
+</body>
+</html>
+

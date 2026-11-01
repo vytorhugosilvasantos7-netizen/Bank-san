@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank-San | Início</title>
+  <link rel="stylesheet" href="src/css/cartao.css">
+  <link rel="stylesheet" href="src/css/inicio.css">
+  <link rel="stylesheet" href="src/css/animacoes.css">
+  <link rel="stylesheet" href="src/css/areas.css">
+  <style>
+    /* Cartão da página inicial: base de 390 x 246 (igual ao do cadastro); o cartoes.js aumenta até 560 px de largura quando há espaço */
+    #cartaoAtual { width: 390px; max-width: none; height: auto; aspect-ratio: 1.586 / 1; }
+    /* Em janelas médias o quadro de gastos fica estreito e o cartão encolhe: os dois quadros ficam um embaixo do outro */
+    @media (max-width: 1219px) { .row-2 { grid-template-columns: 1fr; } }
+    /* Deixa o quadro encolher em telas pequenas (o cartão diminui junto, sem criar rolagem para o lado) */
+    .row-2 > .card { min-width: 0; }
+  </style>
+  <script>
+    (function () {
+      try {
+        var temDemo = sessionStorage.getItem('bankSanDemo') === 'true';
+        var temSessao = false;
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf('-auth-token') !== -1 && localStorage.getItem(k)) {
+            temSessao = true;
+            break;
+          }
+        }
+        if (!temDemo && !temSessao && location.search.indexOf('demo=1') === -1) {
+          location.replace('src/pages/cadastro.html');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <script src="src/js/grafico.js" defer></script>
+  <script src="src/js/cartoes.js" defer></script>
+  <script src="src/js/inicio.js" defer></script>
+  <script src="src/js/mercado-exemplo.js" defer></script>
+  <script src="src/js/news-feed.js" defer></script>
+  <script src="src/js/areas-base.js" defer></script>
+  <script src="src/js/filtro-ativos.js" defer></script>
+  <script src="src/js/carteira.js" defer></script>
+  <script src="src/js/noticias.js" defer></script>
+  <script src="src/js/calendario.js" defer></script>
+  <script src="src/js/comparador.js" defer></script>
+  <script src="src/js/animacoes.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="src/js/supabase-config.js" defer></script>
+  <script src="src/js/app-dados.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    
+
+    <!-- MENU LATERAL ESQUERDO -->
+    <aside class="sidebar">
+      <button class="profile" id="btnPerfil" type="button" aria-label="Abrir configurações">
+        <span class="profile-photo" id="fotoPerfil">V</span>
+        <span class="profile-name">Seu nome</span>
+      </button>
+
+      <nav class="menu" aria-label="Menu principal">
+        <button class="menu-item is-active" type="button" data-view="inicio">Início</button>
+        <button class="menu-item" type="button" data-view="filtro">Filtro de ativos</button>
+        <button class="menu-item" type="button" data-view="carteira">Minha carteira / Simulador</button>
+        <details class="menu-item" data-news-menu>
+          <summary>Notícias</summary>
+          <a href="#news-invest" class="submenu-item" data-view="noticias" data-news-tab="invest">Notícias de investimento</a>
+          <a href="#news-world" class="submenu-item" data-view="noticias" data-news-tab="world">Sobre o mundo do investimento</a>
+        </details>
+        <button class="menu-item" type="button" data-view="calendar">Calendário de proventos</button>
+        <button class="menu-item" type="button" data-view="compare">Comparador de empresas</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <!-- ========== VIEW: INÍCIO ========== -->
+      <section class="view is-active" id="view-inicio">
+
+        <div class="row row-2">
+          <!-- Gráfico de investimentos e gastos -->
+          <article class="card" id="cardGrafico">
+            <header class="card-head">
+              <div>
+                <h2>Meus investimentos</h2>
+                <p class="chart-name" id="chartName" style="color:var(--muted); font-size:.85rem; margin-top:2px;">Valor atual da carteira por ativo</p>
+              </div>
+            </header>
+            <div class="chart-controls">
+              <div class="chart-modes" role="group" aria-label="Mostrar no gráfico">
+                <button class="chart-mode is-active" type="button" data-chart-mode="investimentos" aria-pressed="true">Investimentos</button>
+                <button class="chart-mode" type="button" data-chart-mode="gastos" aria-pressed="false">Gastos</button>
+              </div>
+              <span class="badge" id="badgeResultado">0 ativos</span>
+            </div>
+            <p class="big-value" id="valorTotal">R$ 0,00</p>
+            <div class="chart" id="chartInvest"></div>
+
+          </article>
+
+          <!-- Registro de gastos -->
+          <article class="card" id="cardGastos">
+            <header class="card-head">
+              <h2>Meus gastos</h2>
+              <span class="card-actions">
+                <button class="btn-small" type="button" id="btnNovoCartao">Adicionar cartão</button>
+                <button class="btn-small btn-danger" type="button" id="btnRemoverCartao" disabled>Remover cartão</button>
+                <button class="btn-small" type="button" id="btnNovoGasto">Registrar gasto</button>
+              </span>
+            </header>
+
+            <div class="card-fatura animate"><div class="cartao-area">
+              <article class="demo-card" id="cartaoAtual" data-bank="bank-san" aria-live="polite">
+                <div class="demo-card-top">
+                  <div class="demo-card-logo">
+                    <span class="demo-card-mark" data-card-mark aria-hidden="true">B</span>
+                    <span class="demo-card-wordmark" data-card-wordmark>BANK-SAN</span>
+                  </div>
+
+                  <span class="demo-card-type" data-card-type>CRÉDITO</span>
+                </div>
+
+                <div class="demo-card-middle" aria-hidden="true">
+                  <span class="demo-card-chip"><span></span></span>
+                  <svg class="demo-card-contactless" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 8.5a5 5 0 0 1 0 7M11 6a8.5 8.5 0 0 1 0 12M14 3.5a12 12 0 0 1 0 17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                  </svg>
+                </div>
+
+                <div class="demo-card-bottom">
+                  <div>
+                    <span class="demo-card-label">TITULAR</span>
+                    <p data-card-holder>SEU NOME</p>
+
+                  </div>
+
+                  <div class="demo-card-brand">
+                    <span class="demo-card-bank" data-card-bank>BANK-SAN</span>
+                    <span class="demo-card-network" data-card-network></span>
+                  </div>
+
+                </div>
+
+              </article>
+            </div>
+
+
+            <div class="cartao-tabs" id="cartaoTabs" role="tablist" aria-label="Meus cartões"></div>
+
+            <p class="exemplo-aviso" id="avisoExemplo" hidden>Exemplo ilustrativo. Use "Adicionar cartão" para ver seus gastos de verdade.</p>
+
+            <div class="expenses-head">
+              <div><span id="gastosTitulo">Gastos do cartão</span><small id="gastosDescricao">Acompanhe seus lançamentos recentes</small></div>
+              <strong id="gastosTotal">R$ 0,00</strong>
+            </div>
+
+            <ul class="expenses" id="listaGastos"></ul>
+          </article>
+        </div>
+
+
+        <!-- Bancos e corretoras -->
+        <div class="row">
+          <article class="card banks-card" aria-labelledby="banks-title">
+            <header class="card-head">
+              <div>
+                <h2 id="banks-title">Bancos e corretoras</h2>
+                <p class="section-subtitle">Acesse os canais oficiais para conhecer produtos, taxas e condições atualizadas.</p>
+              </div>
+              <span class="section-kicker">Guia informativo</span>
+            </header>
+            <div class="banks">
+              <article class="bank">
+                <span class="bank-mark" aria-hidden="true">Nu</span>
+                <div class="bank-copy"><strong>Nubank</strong><small>Banco digital · conta e investimentos</small></div>
+                <a class="bank-link" href="https://nubank.com.br/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
+              </article>
+              <article class="bank">
+                <span class="bank-mark" aria-hidden="true">IN</span>
+                <div class="bank-copy"><strong>Inter</strong><small>Banco digital · conta e investimentos</small></div>
+                <a class="bank-link" href="https://inter.co/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
+              </article>
+              <article class="bank">
+                <span class="bank-mark" aria-hidden="true">IT</span>
+                <div class="bank-copy"><strong>Itaú</strong><small>Banco · conta e investimentos</small></div>
+                <a class="bank-link" href="https://www.itau.com.br/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
+              </article>
+              <article class="bank">
+                <span class="bank-mark" aria-hidden="true">XP</span>
+                <div class="bank-copy"><strong>XP</strong><small>Corretora · plataforma de investimentos</small></div>
+                <a class="bank-link" href="https://www.xpi.com.br/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
+              </article>
+            </div>
+            <p class="banks-disclaimer">Produtos, tarifas e rentabilidade podem mudar. Consulte as condições diretamente com cada instituição. Este guia não é uma recomendação.</p>
+          </article>
+        </div>
+
+
+        <!-- Notícias de fontes externas -->
+        <div class="row">
+          <article class="card news-card" aria-labelledby="market-news-title">
+            <header class="card-head news-head">
+              <div>
+                <h2 id="market-news-title">Notícias do mercado</h2>
+                <p class="section-subtitle">Manchetes recentes de veículos jornalísticos e da Agência Brasil (EBC).</p>
+              </div>
+              <button class="btn-small news-refresh" type="button" data-news-refresh>
+                <span aria-hidden="true">↻</span> Atualizar
+              </button>
+            </header>
+            <div class="news-toolbar">
+              <div class="news-tabs" role="group" aria-label="Filtrar notícias">
+                <button class="tab is-active" type="button" data-news-filter="all" aria-pressed="true">Todas</button>
+                <button class="tab" type="button" data-news-filter="markets" aria-pressed="false">Mercados</button>
+                <button class="tab" type="button" data-news-filter="economy" aria-pressed="false">Economia</button>
+                <button class="tab" type="button" data-news-filter="world" aria-pressed="false">Internacional</button>
+              </div>
+              <p class="news-status" data-news-status role="status" aria-live="polite">Carregando manchetes...</p>
+            </div>
+            <div class="news-grid" data-news-list aria-live="polite" aria-busy="true">
+              <p class="news-message">Buscando as últimas notícias...</p>
+            </div>
+            <footer class="news-foot">
+              <span>Fontes: Money Times, Valor Econômico e Agência Brasil (EBC). RSS processado por <a href="https://rss2json.com/" target="_blank" rel="noopener noreferrer">RSS2JSON</a>.</span>
+              <span>As matérias abrem nos sites originais. Conteúdo informativo, não é recomendação de investimento.</span>
+            </footer>
+          </article>
+        </div>
+
+
+        <!-- Espaço reservado para a próxima ideia -->
+      </section>
+
+      <!-- ========== VIEW: CONFIGURAÇÕES ========== -->
+      <section class="view" id="view-config">
+        <article class="card settings">
+          <header class="card-head"><h2>Configurações</h2></header>
+
+          <div class="setting">
+            <div><strong>Foto de perfil</strong><small>Escolha uma imagem do seu dispositivo</small></div>
+
+            <label class="btn-small">Escolher foto<input type="file" id="inputFoto" accept="image/*" hidden></label>
+          </div>
+
+
+          <div class="setting">
+            <div><strong>Tema preto e branco</strong><small>Alterna entre o tema escuro e o claro</small></div>
+
+            <button class="switch" type="button" id="swTema" role="switch" aria-checked="false" aria-label="Tema preto e branco"></button>
+          </div>
+
+
+          <div class="setting">
+            <div><strong>Notificações do site</strong><small>Ativar ou desativar avisos</small></div>
+
+            <button class="switch is-on" type="button" id="swNotif" role="switch" aria-checked="true" aria-label="Notificações"></button>
+          </div>
+
+
+          <div class="setting">
+            <div><strong>Alterar senha</strong><small>Defina uma nova senha de acesso</small></div>
+
+            <button class="btn-small" type="button" id="btnSenha">Alterar senha</button>
+          </div>
+
+
+          <div class="setting">
+            <div><strong>Sair da conta</strong><small>Encerra a sessão neste dispositivo</small></div>
+
+            <button class="btn-small" type="button" id="btnSair">Sair</button>
+          </div>
+
+
+          <div class="setting setting-danger">
+            <div><strong>Excluir conta</strong><small>Remove sua conta e seus dados. Não dá para desfazer.</small></div>
+
+            <button class="btn-small btn-danger" type="button" id="btnExcluir">Excluir conta</button>
+          </div>
+
+        </article>
+      </section>
+
+
+      <!-- ========== NOVAS ÁREAS (montadas por src/js/areas/) ========== -->
+      <section class="view" id="view-filtro"></section>
+      <section class="view" id="view-carteira"></section>
+      <section class="view" id="view-noticias"></section>
+      <section class="view" id="view-calendar"></section>
+      <section class="view" id="view-compare"></section>
+
+    </main>
+  </div>
+
+
+  <!-- JANELAS (formulários) -->
+  <dialog id="dlgGasto" class="dlg">
+    <form method="dialog" id="formGasto">
+      <h2>Registrar gasto</h2>
+      <p class="dlg-sub" id="gastoCartaoNome"></p>
+      <label>Descrição<input name="descricao" type="text" maxlength="80" required></label>
+      <label>Categoria<input name="categoria" type="text" maxlength="40" placeholder="Ex.: Alimentação"></label>
+      <label>Valor (R$)<input name="valor" type="number" step="0.01" min="0.01" inputmode="decimal" required></label>
+      <label>Data<input name="data" type="date" required></label>
+      <p class="dlg-erro" role="alert"></p>
+      <div class="dlg-botoes">
+        <button class="btn-small" type="button" data-fechar>Cancelar</button>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+
+    </form>
+  </dialog>
+
+  <dialog id="dlgCartao" class="dlg">
+    <form method="dialog" id="formCartao">
+      <h2>Adicionar cartão</h2>
+      <p class="dlg-sub">Cadastre somente os dados básicos. Não informe número, senha ou código de segurança do cartão.</p>
+      <label>Banco
+        <select name="banco" required>
+          <option value="nubank">Nubank</option>
+          <option value="itau">Itaú</option>
+          <option value="bradesco">Bradesco</option>
+          <option value="santander">Santander</option>
+          <option value="banco-do-brasil">Banco do Brasil</option>
+          <option value="caixa">Caixa</option>
+          <option value="inter">Inter</option>
+          <option value="c6">C6 Bank</option>
+          <option value="bank-san">Bank-San</option>
+        </select>
+      </label>
+      <label>Tipo
+        <select name="tipo" required>
+          <option value="credito">Crédito</option>
+          <option value="debito">Débito</option>
+        </select>
+      </label>
+      <label>Bandeira
+        <select name="bandeira" required>
+          <option>Visa</option><option>Mastercard</option><option>Elo</option><option>Outra</option>
+        </select>
+      </label>
+      <p class="dlg-erro" role="alert"></p>
+      <div class="dlg-botoes">
+        <button class="btn-small" type="button" data-fechar>Cancelar</button>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+
+    </form>
+  </dialog>
+
+  <dialog id="dlgSenha" class="dlg">
+    <form method="dialog" id="formSenha">
+      <h2>Alterar senha</h2>
+      <label>Nova senha<input name="nova" type="password" minlength="8" maxlength="64" autocomplete="new-password" required></label>
+      <label>Repita a nova senha<input name="repete" type="password" minlength="8" maxlength="64" autocomplete="new-password" required></label>
+      <p class="dlg-erro" role="alert"></p>
+      <div class="dlg-botoes">
+        <button class="btn-small" type="button" data-fechar>Cancelar</button>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+
+    </form>
+  </dialog>
+</body>
+</html>

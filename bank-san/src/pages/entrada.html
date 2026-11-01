@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank-San | Entrar</title>
+  <link rel="stylesheet" href="../css/market-bg.css">
+  <link rel="stylesheet" href="../css/entrada.css">
+  <link rel="stylesheet" href="../css/animacoes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="../js/supabase-config.js" defer></script>
+  <script src="../js/modo-teste.js" defer></script>
+  <script src="../js/auth-entrada.js" defer></script>
+  <script src="../js/market-bg.js" defer></script>
+  <script src="../js/animacoes.js" defer></script>
+</head>
+<body>
+  <!-- Fundo animado: o mesmo do cadastro (js/market-bg.js) -->
+  <div class="market-bg" aria-hidden="true"><canvas data-market-bg></canvas></div>
+
+  <main class="entrada">
+    <h1>Entrar</h1>
+    <p class="sub">Acesse sua conta Bank-San.</p>
+    <form id="formEntrada">
+      <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label>Senha<input name="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Entrar</button>
+      <p id="msgEntrada" role="status"></p>
+    </form>
+    <p class="rodape">Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
+    <div class="convidado">
+      <button type="button" id="btnConvidado" class="secundario">Entrar para testar</button>
+      <p class="nota-convidado" id="msgConvidado" role="status">Quer só conhecer o site? Entre para testar, sem criar conta. Se o servidor estiver ligado, você vira um convidado temporário (sem e-mail), e o administrador vê que ele existe e quando está online. Se não, abre uma demonstração com dados de exemplo, só neste navegador.</p>
+    </div>
+  </main>
+</body>
+</html>

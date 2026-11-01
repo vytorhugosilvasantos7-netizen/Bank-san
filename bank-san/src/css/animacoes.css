@@ -1,0 +1,49 @@
+/* --- ANIMAÇÃO DIRETA PARA A TELA DE ENTRADA --- */
+
+/* Faz a página inteira ou o container principal surgir suavemente */
+body, main, .container {
+  animation: fadeInSite 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeInSite {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animação do lado esquerdo (Textos / Slogan) */
+/* Pega o primeiro filho ou a primeira coluna/div principal */
+body > *:first-child, .col-esquerda, div:first-of-type {
+  animation: slideLeftEntry 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s backwards;
+}
+
+@keyframes slideLeftEntry {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animação do cartão da direita (Crie sua conta / Formulário) */
+/* Pega o segundo filho ou o card de cadastro */
+body > *:nth-child(2), .card, form, .col-direita {
+  animation: slideRightEntry 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.25s backwards;
+}
+
+@keyframes slideRightEntry {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

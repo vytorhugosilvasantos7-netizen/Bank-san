@@ -223,6 +223,13 @@
       return true;
     },
     atual: function () { return atual; },
+    listar: function () { return cartoes.slice(); },
+    obter: function (cartaoId) { return achar(cartaoId) || null; },
+    selecionar: function (cartaoId) {
+      if (!achar(cartaoId)) return false;
+      mostrar(cartaoId);
+      return true;
+    },
     temCartoes: function () { return !modoExemplo && cartoes.length > 0; }
   };
 

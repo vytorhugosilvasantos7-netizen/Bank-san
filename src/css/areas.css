@@ -254,3 +254,177 @@
 @media (prefers-reduced-motion: reduce) {
   .kpis > div { transition: none; }
 }
+
+/* Contas manuais e planilha por cartão */
+.accounts-card { overflow: hidden; }
+.accounts-card .card-head { align-items: flex-start; }
+.account-connection-note,
+.account-detail-notice,
+.account-data-note {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--panel), var(--text) 3%);
+  color: var(--muted);
+  font-size: .84rem;
+  line-height: 1.6;
+}
+.account-connection-note strong,
+.account-detail-notice strong { color: var(--text); }
+.account-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.account-tile {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 46px minmax(0, 1fr) 22px;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel), var(--text) 2%);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.account-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--account-color, var(--muted));
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--account-color, var(--text)), transparent 88%);
+}
+.account-tile-mark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--account-color, var(--line)), transparent 35%);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--account-color, var(--panel)), transparent 84%);
+  font-size: .88rem;
+  font-weight: 750;
+}
+.account-tile-copy { display: grid; min-width: 0; gap: 3px; }
+.account-tile-copy strong,
+.account-tile-copy small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account-tile-copy small { color: var(--muted); font-size: .76rem; }
+.account-tile-arrow { color: var(--account-color, var(--muted)); font-size: 1.15rem; }
+.account-empty {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 28px 16px 10px;
+  color: var(--muted);
+  text-align: center;
+}
+.account-empty[hidden] { display: none; }
+.account-empty-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 1.35rem;
+}
+.account-empty strong { color: var(--text); }
+.account-empty p { max-width: 460px; font-size: .88rem; }
+.account-detail-card { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+#accountDetailContent { min-width: 0; }
+.account-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+.account-detail-head h2 { margin: 4px 0; font-size: clamp(1.35rem, 3vw, 2rem); }
+.account-back {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+.account-back:hover { color: var(--text); }
+.account-eyebrow { margin-top: 16px; color: var(--muted); font-size: .7rem; font-weight: 700; letter-spacing: .14em; }
+.account-detail-head .btn-small { flex: 0 0 auto; }
+.account-detail-notice { border-color: color-mix(in srgb, var(--account-color, var(--line)), transparent 55%); }
+.account-kpis { margin: 0; }
+.account-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.account-chart-card {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel), var(--text) 2%);
+}
+.account-chart-card header { display: grid; gap: 3px; }
+.account-chart-card h3,
+.account-ledger-head h3 { font-size: 1rem; }
+.account-chart-card header span,
+.account-ledger-head p { color: var(--muted); font-size: .78rem; }
+.account-chart { min-height: 190px; margin-top: 14px; }
+.account-chart svg { display: block; width: 100%; height: 190px; overflow: visible; }
+.account-chart-grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 5; }
+.account-expense-area { fill: var(--up); opacity: .12; }
+.account-expense-line {
+  fill: none;
+  stroke: var(--up);
+  stroke-width: 2.5;
+  stroke-dasharray: var(--account-line-length);
+  stroke-dashoffset: var(--account-line-length);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  animation: chartLineDraw .85s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+.account-chart-label { fill: var(--muted); font: 10px system-ui, sans-serif; }
+.account-chart-empty { display: grid; min-height: 190px; place-items: center; color: var(--muted); font-size: .88rem; text-align: center; }
+.account-invest-row { display: grid; gap: 6px; margin: 14px 0; }
+.account-invest-label { display: flex; justify-content: space-between; gap: 10px; font-size: .84rem; }
+.account-invest-label strong { color: var(--text); }
+.account-invest-label span { color: var(--text); font-variant-numeric: tabular-nums; }
+.account-invest-track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--line); }
+.account-invest-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--muted), var(--text));
+  animation: accountBarEnter .55s cubic-bezier(.22, 1, .36, 1) both;
+}
+@keyframes accountBarEnter { from { width: 0; } }
+.account-invest-row small { color: var(--muted); font-size: .74rem; }
+.account-ledger-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; }
+.account-ledger-wrap { max-height: 440px; }
+.account-ledger { min-width: 780px; }
+.account-data-note { padding: 0; border: 0; background: none; font-size: .78rem; }
+.account-no-selection { color: var(--muted); font-size: .9rem; }
+.account-no-selection[hidden],
+#accountDetailContent[hidden] { display: none; }
+
+@media (max-width: 720px) {
+  .account-charts { grid-template-columns: 1fr; }
+  .account-detail-head { flex-direction: column; }
+  .account-detail-head .btn-small { width: 100%; }
+}
+@media (max-width: 520px) {
+  .accounts-card .card-head { flex-direction: column; }
+  .accounts-card .card-head > .btn-small { width: 100%; }
+  .account-ledger-head { align-items: flex-start; flex-direction: column; }
+  .account-list { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-tile,
+  .account-invest-track span,
+  .account-expense-line { animation: none; transition: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+}

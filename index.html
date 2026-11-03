@@ -42,6 +42,7 @@
   <script src="src/js/areas-base.js" defer></script>
   <script src="src/js/filtro-ativos.js" defer></script>
   <script src="src/js/carteira.js" defer></script>
+  <script src="src/js/contas.js" defer></script>
   <script src="src/js/noticias.js" defer></script>
   <script src="src/js/calendario.js" defer></script>
   <script src="src/js/comparador.js" defer></script>
@@ -163,39 +164,24 @@
         </div>
 
 
-        <!-- Bancos e corretoras -->
+        <!-- Cartões e contas cadastradas manualmente -->
         <div class="row">
-          <article class="card banks-card" aria-labelledby="banks-title">
+          <article class="card accounts-card" aria-labelledby="accounts-title">
             <header class="card-head">
               <div>
-                <h2 id="banks-title">Bancos e corretoras</h2>
-                <p class="section-subtitle">Acesse os canais oficiais para conhecer produtos, taxas e condições atualizadas.</p>
+                <h2 id="accounts-title">Minhas contas</h2>
+                <p class="section-subtitle">Cadastre um cartão e organize manualmente os gastos e investimentos que deseja acompanhar.</p>
               </div>
-              <span class="section-kicker">Guia informativo</span>
+              <button class="btn-small" type="button" data-account-add>+ Cadastrar cartão</button>
             </header>
-            <div class="banks">
-              <article class="bank">
-                <span class="bank-mark" aria-hidden="true">Nu</span>
-                <div class="bank-copy"><strong>Nubank</strong><small>Banco digital · conta e investimentos</small></div>
-                <a class="bank-link" href="https://nubank.com.br/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
-              </article>
-              <article class="bank">
-                <span class="bank-mark" aria-hidden="true">IN</span>
-                <div class="bank-copy"><strong>Inter</strong><small>Banco digital · conta e investimentos</small></div>
-                <a class="bank-link" href="https://inter.co/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
-              </article>
-              <article class="bank">
-                <span class="bank-mark" aria-hidden="true">IT</span>
-                <div class="bank-copy"><strong>Itaú</strong><small>Banco · conta e investimentos</small></div>
-                <a class="bank-link" href="https://www.itau.com.br/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
-              </article>
-              <article class="bank">
-                <span class="bank-mark" aria-hidden="true">XP</span>
-                <div class="bank-copy"><strong>XP</strong><small>Corretora · plataforma de investimentos</small></div>
-                <a class="bank-link" href="https://www.xpi.com.br/" target="_blank" rel="noopener noreferrer">Site oficial <span aria-hidden="true">↗</span></a>
-              </article>
+            <p class="account-connection-note"><strong>Sem conexão bancária:</strong> este cadastro é apenas uma planilha pessoal. Não pedimos acesso, senha ou dados de login do banco; gastos e investimentos só aparecem quando você os registra no site.</p>
+            <div class="account-list" id="accountList" aria-live="polite"></div>
+            <div class="account-empty" id="accountEmpty">
+              <span class="account-empty-mark" aria-hidden="true">＋</span>
+              <strong>Suas contas organizadas em um só lugar</strong>
+              <p>Cadastre um cartão para abrir o painel de gastos, acompanhar seus registros e baixar a planilha.</p>
+              <button class="btn" type="button" data-account-add>Cadastrar meu primeiro cartão</button>
             </div>
-            <p class="banks-disclaimer">Produtos, tarifas e rentabilidade podem mudar. Consulte as condições diretamente com cada instituição. Este guia não é uma recomendação.</p>
           </article>
         </div>
 
@@ -291,6 +277,49 @@
       <section class="view" id="view-noticias"></section>
       <section class="view" id="view-calendar"></section>
       <section class="view" id="view-compare"></section>
+      <section class="view" id="view-conta" aria-labelledby="accountDetailTitle">
+        <article class="card account-detail-card">
+          <header class="account-detail-head">
+            <div>
+              <button class="account-back" type="button" data-account-back>← Voltar ao início</button>
+              <p class="account-eyebrow">PAINEL MANUAL DA CONTA</p>
+              <h2 id="accountDetailTitle">Selecione uma conta</h2>
+              <p id="accountDetailDescription" class="section-subtitle">Os dados são inseridos por você; nenhuma conta bancária é conectada.</p>
+            </div>
+            <button class="btn-small" type="button" id="accountExport" disabled>Baixar planilha CSV</button>
+          </header>
+          <p class="account-detail-notice"><strong>Importante:</strong> este painel não acessa seu banco. Os gastos vêm dos lançamentos do cartão selecionado. Os investimentos abaixo vêm da sua carteira manual geral e não estão vinculados a este banco.</p>
+          <div id="accountDetailContent" hidden>
+            <div class="kpis account-kpis">
+              <div><small>Gastos registrados neste cartão</small><strong id="accountExpenseTotal">R$ 0,00</strong></div>
+              <div><small>Investimentos na carteira geral</small><strong id="accountInvestmentTotal">R$ 0,00</strong></div>
+              <div><small>Lançamentos nesta planilha</small><strong id="accountRecordCount">0</strong></div>
+            </div>
+            <div class="account-charts">
+              <article class="account-chart-card">
+                <header><h3>Gastos por lançamento</h3><span>Cartão selecionado · R$</span></header>
+                <div class="account-chart" id="accountExpenseChart"></div>
+              </article>
+              <article class="account-chart-card">
+                <header><h3>Carteira de investimentos</h3><span>Carteira geral · R$</span></header>
+                <div class="account-chart" id="accountInvestmentChart"></div>
+              </article>
+            </div>
+            <div class="account-ledger-head">
+              <div><h3>Planilha de movimentações</h3><p>Gastos deste cartão e posições da carteira geral.</p></div>
+              <span id="accountLedgerCount" class="badge">0 registros</span>
+            </div>
+            <div class="tabela-area account-ledger-wrap">
+              <table class="tabela account-ledger">
+                <thead><tr><th>Tipo</th><th>Data</th><th>Conta / carteira</th><th>Descrição</th><th>Categoria</th><th>Quantidade</th><th>Valor unitário</th><th>Total</th></tr></thead>
+                <tbody id="accountLedger"></tbody>
+              </table>
+            </div>
+            <p class="account-data-note">A carteira de investimentos é preenchida manualmente e salva neste navegador. O valor atual usa dados demonstrativos do site; confira seus valores reais diretamente na sua corretora.</p>
+          </div>
+          <p class="account-no-selection" id="accountNoSelection">Volte ao início e selecione um cartão cadastrado para abrir sua planilha.</p>
+        </article>
+      </section>
 
     </main>
   </div>

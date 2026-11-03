@@ -62,3 +62,9 @@ Quem entra pelo modo demonstração (`?demo=1`), sem conta, não aparece: esse m
 
 Privacidade (LGPD): como o site guarda e-mail e nome, vale ter um aviso curto de privacidade no cadastro
 dizendo que o administrador consegue ver nome, e-mail e quando a conta está ativa.
+
+## Contas manuais e planilha
+
+- Os cartões cadastrados aparecem em **Minhas contas**. Ao abrir um cartão, o painel lista os gastos registrados nele e permite baixar a tabela em CSV, compatível com planilhas.
+- Isso não conecta ao banco: não são solicitados login, senha bancária ou acesso à conta.
+- A carteira de investimentos é preenchida manualmente e salva no navegador. Ela é exibida como carteira geral, sem associação a um banco ou cartão; os preços disponíveis são dados demonstrativos.

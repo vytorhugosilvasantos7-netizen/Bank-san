@@ -12,6 +12,7 @@
     var menuNoticias = document.querySelector('[data-news-menu]');
     if (menuNoticias) menuNoticias.classList.toggle('is-active', nome === 'noticias');
   }
+  window.BankSanNavegar = mostrar;
   menuItems.forEach(function (b) {
     b.addEventListener('click', function () { mostrar(b.dataset.view); });
   });

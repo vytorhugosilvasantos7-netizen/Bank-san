@@ -19,7 +19,6 @@
 }
 
 body {
-    min-width: 320px;
     min-height: 100vh;
     margin: 0;
     background: var(--bg);
@@ -405,6 +404,13 @@ form > :nth-child(6) { animation-delay: 0.6s; }
 .consent input:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
+}
+
+.privacy-note {
+    margin: -4px 0 2px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.55;
 }
 
 /* ---------- Botão com animação ---------- */

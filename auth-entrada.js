@@ -10,7 +10,10 @@
   // Quem já está logado vai direto para o início
   if (window.bankSanConfigurado) {
     window.bankSanDb.auth.getSession().then(function (r) {
+      if (r.error) throw r.error;
       if (r.data.session) location.replace('../../index.html');
+    }).catch(function () {
+      aviso('Não foi possível verificar sua sessão. Confira sua conexão e tente novamente.', true);
     });
   }
 
@@ -22,17 +25,22 @@
     }
     botao.disabled = true;
     aviso('Entrando...');
-    var r = await window.bankSanDb.auth.signInWithPassword({
-      email: form.elements.email.value.trim(),
-      password: form.elements.password.value
-    });
-    botao.disabled = false;
-    if (r.error) {
-      aviso(/invalid login/i.test(r.error.message) ? 'E-mail ou senha incorretos.' : /not confirmed/i.test(r.error.message) ? 'Confirme seu e-mail antes de entrar.' : 'Não foi possível entrar: ' + r.error.message, true);
-      return;
+    try {
+      var r = await window.bankSanDb.auth.signInWithPassword({
+        email: form.elements.email.value.trim(),
+        password: form.elements.password.value
+      });
+      if (r.error) {
+        aviso(/invalid login/i.test(r.error.message) ? 'E-mail ou senha incorretos.' : /not confirmed/i.test(r.error.message) ? 'Confirme seu e-mail antes de entrar.' : 'Não foi possível entrar. Confira seus dados e tente novamente.', true);
+        return;
+      }
+      window.bankSanSairDoModoTeste();
+      location.href = '../../index.html';
+    } catch (erro) {
+      aviso('Não foi possível conectar para entrar. Confira sua conexão e tente novamente.', true);
+    } finally {
+      botao.disabled = false;
     }
-    window.bankSanSairDoModoTeste();
-    location.href = '../../index.html';
   });
 
   // Entrar para testar: convidado de verdade, ou demonstração se o servidor não permitir
@@ -43,8 +51,13 @@
     btnTeste.disabled = true;
     msgTeste.style.color = 'inherit';
     msgTeste.textContent = 'Preparando o teste...';
-    await window.bankSanEntrarParaTestar();
-    location.href = '../../index.html';
-    setTimeout(function () { btnTeste.disabled = false; msgTeste.textContent = textoOriginal; }, 4000);
+    try {
+      await window.bankSanEntrarParaTestar();
+      location.href = '../../index.html';
+    } catch (erro) {
+      msgTeste.style.color = 'var(--down)';
+      msgTeste.textContent = 'Não foi possível iniciar o teste. Confira sua conexão e tente novamente.';
+      btnTeste.disabled = false;
+    }
   });
 })();

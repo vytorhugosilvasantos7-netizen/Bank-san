@@ -49,34 +49,38 @@
     botao.disabled = true;
     aviso('Criando sua conta...');
 
-    var r = await window.bankSanDb.auth.signUp({
-      email: form.elements.email.value.trim(),
-      password: form.elements.password.value,
-      options: {
-        data: {
-          nome: form.elements.fullName.value.trim(),
-          data_nascimento: campoNasc.value,
-          celular: form.elements.phone.value
+    try {
+      var r = await window.bankSanDb.auth.signUp({
+        email: form.elements.email.value.trim(),
+        password: form.elements.password.value,
+        options: {
+          data: {
+            nome: form.elements.fullName.value.trim(),
+            data_nascimento: campoNasc.value,
+            celular: form.elements.phone.value
+          }
         }
-      }
-    });
-    botao.disabled = false;
+      });
 
-    if (r.error) {
-      var m = r.error.message || '';
-      aviso(/already registered/i.test(m) ? 'Este e-mail já tem uma conta. Use "Entrar".' : 'Não foi possível criar a conta: ' + m, true);
-      return;
-    }
-    if (r.data.user && r.data.user.identities && r.data.user.identities.length === 0) {
-      aviso('Este e-mail já tem uma conta. Use "Entrar".', true);
-      return;
-    }
-    if (r.data.session) {
-      if (window.bankSanSairDoModoTeste) window.bankSanSairDoModoTeste();
-      location.href = '../../index.html';
-    } else {
-      aviso('Conta criada. Confirme o e-mail que enviamos e depois entre.');
-      form.reset();
+      if (r.error) {
+        aviso('Não foi possível criar a conta. Confira os dados e tente novamente.', true);
+        return;
+      }
+      if (r.data.user && r.data.user.identities && r.data.user.identities.length === 0) {
+        aviso('Se o cadastro puder ser concluído, você receberá instruções por e-mail. Se já tiver conta, tente entrar.');
+        return;
+      }
+      if (r.data.session) {
+        if (window.bankSanSairDoModoTeste) window.bankSanSairDoModoTeste();
+        location.href = '../../index.html';
+      } else {
+        aviso('Conta criada. Confirme o e-mail que enviamos e depois entre.');
+        form.reset();
+      }
+    } catch (erro) {
+      aviso('Não foi possível conectar para criar a conta. Confira sua conexão e tente novamente.', true);
+    } finally {
+      botao.disabled = false;
     }
   });
 

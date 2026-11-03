@@ -140,10 +140,13 @@
   }
 
   function iniciar() {
-    try { prepararBrilho(); } catch (e) {}
-    try { prepararCartao(); } catch (e) {}
-    try { prepararNumeros(); } catch (e) {}
-    try { prepararEntrada(); } catch (e) { document.documentElement.classList.remove('js-anim'); }
+    try { prepararBrilho(); } catch (e) { console.error('[Bank-San] Não foi possível iniciar o brilho dos cartões.', e); }
+    try { prepararCartao(); } catch (e) { console.error('[Bank-San] Não foi possível iniciar a animação dos cartões.', e); }
+    try { prepararNumeros(); } catch (e) { console.error('[Bank-San] Não foi possível iniciar a animação dos valores.', e); }
+    try { prepararEntrada(); } catch (e) {
+      document.documentElement.classList.remove('js-anim');
+      console.error('[Bank-San] Não foi possível iniciar as animações de entrada.', e);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);

@@ -244,7 +244,7 @@ ul { list-style: none; }
 .exemplo-aviso[hidden] { display: none; }
 
 @media (max-width: 650px) {
-  .chart-controls { align-items: flex-start; }
+  .chart-controls { align-items: flex-start; flex-wrap: wrap; }
   .chart-mode { padding: 6px 8px; }
   .chart-controls .badge { flex-shrink: 0; }
   .card-actions { width: 100%; }

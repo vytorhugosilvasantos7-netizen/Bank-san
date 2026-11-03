@@ -37,7 +37,8 @@ O site continua em HTML/CSS/JS no GitHub Pages.
 
 - A área de bancos e corretoras direciona aos sites oficiais. Não exibe taxas estimadas ou rentabilidade fixa; consulte sempre as condições atuais com a instituição.
 - As manchetes vêm dos feeds RSS públicos de Money Times, Valor Econômico e Agência Brasil (EBC). O RSS2JSON converte os feeds para funcionar no site estático; são enviadas ao serviço somente as URLs públicas dos feeds, nunca dados da conta. É necessária uma conexão com a internet; se uma fonte estiver indisponível, as demais continuam disponíveis.
-- O site mostra títulos, fonte e data, e abre cada matéria no veículo original. O conteúdo é informativo e não constitui recomendação de investimento.
+- As notícias são atualizadas ao abrir a página, manualmente pelo botão ou automaticamente a cada 15 minutos enquanto o site estiver aberto. Isso atualiza a consulta aos feeds; a publicação de novas matérias depende de cada veículo e não é garantida em tempo real.
+- Quando o feed traz uma foto editorial segura do próprio veículo, uma manchete em destaque pode exibi-la com crédito. As outras manchetes continuam em texto; não são usados logotipos ou imagens genéricas como se fossem fotos da matéria. Os links abrem no veículo original. O conteúdo é informativo e não constitui recomendação de investimento.
 - O gráfico BTC/USD usa uma série histórica demonstrativa informada no projeto, de maio de 2025 a abril de 2026. Não são cotações em tempo real nem indicação de compra ou venda.
 
 ## Painel do administrador e convidados (conta de teste)

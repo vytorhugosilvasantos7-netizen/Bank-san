@@ -9,7 +9,8 @@
       category: 'markets',
       label: 'Mercados',
       url: 'https://www.moneytimes.com.br/mercados/feed/',
-      hosts: ['moneytimes.com.br']
+      hosts: ['moneytimes.com.br'],
+      imageHosts: ['moneytimes.com.br']
     },
     {
       name: 'Valor Econômico',
@@ -17,7 +18,8 @@
       category: 'markets',
       label: 'Mercados',
       url: 'https://valor.globo.com/rss/valor/financas/',
-      hosts: ['valor.globo.com']
+      hosts: ['valor.globo.com'],
+      imageHosts: ['glbimg.com']
     },
     {
       name: 'Valor Econômico · Mundo',
@@ -25,7 +27,8 @@
       category: 'world',
       label: 'Internacional',
       url: 'https://valor.globo.com/rss/valor/mundo/',
-      hosts: ['valor.globo.com']
+      hosts: ['valor.globo.com'],
+      imageHosts: ['glbimg.com']
     },
     {
       name: 'Agência Brasil (EBC)',
@@ -33,10 +36,12 @@
       category: 'economy',
       label: 'Economia',
       url: 'https://agenciabrasil.ebc.com.br/rss/economia/feed.xml',
-      hosts: ['agenciabrasil.ebc.com.br']
+      hosts: ['agenciabrasil.ebc.com.br'],
+      imageHosts: ['agenciabrasil.ebc.com.br']
     }
   ];
   var MAX_NEWS = 15;
+  var INTERVALO_ATUALIZACAO = 15 * 60 * 1000;
   var lista = document.querySelector('[data-news-list]');
   var status = document.querySelector('[data-news-status]');
   var atualizar = document.querySelector('[data-news-refresh]');
@@ -45,6 +50,7 @@
   var filtroAtivo = 'all';
   var carregando = false;
   var ultimoUpdate = null;
+  var ultimaTentativa = 0;
   var fontesIndisponiveis = 0;
   var houveErro = false;
   var assinantes = [];
@@ -57,6 +63,47 @@
     return dominios.some(function (dominio) {
       return host === dominio || host.slice(-(dominio.length + 1)) === '.' + dominio;
     });
+  }
+
+  function imagemPermitida(valor, feed) {
+    if (typeof valor !== 'string' || !valor.trim() || valor.length > 2048) return '';
+    try {
+      var url = new URL(valor.trim());
+      if (url.protocol !== 'https:' || url.username || url.password || !ehDominioPermitido(url.hostname.toLowerCase(), feed.imageHosts)) return '';
+      return url.href;
+    } catch (erro) {
+      return '';
+    }
+  }
+
+  function imagemDoItem(feed, item) {
+    var candidatos = [];
+    if (typeof item.thumbnail === 'string') candidatos.push(item.thumbnail);
+    if (item.enclosure && typeof item.enclosure.link === 'string') candidatos.push(item.enclosure.link);
+
+    for (var i = 0; i < candidatos.length; i += 1) {
+      var imagemDireta = imagemPermitida(candidatos[i], feed);
+      if (imagemDireta) return imagemDireta;
+    }
+
+    [item.content, item.description].forEach(function (html) {
+      if (typeof html !== 'string' || !html) return;
+      var imagens = html.match(/<img\b[^>]*>/gi) || [];
+      imagens.forEach(function (tag) {
+        var atributos = ['data-src', 'src'];
+        atributos.forEach(function (nome) {
+          var padrao = new RegExp('\\b' + nome + '\\s*=\\s*(?:"([^"]+)"|\'([^\']+)\'|([^\\s>]+))', 'i');
+          var correspondencia = tag.match(padrao);
+          if (correspondencia) candidatos.push(correspondencia[1] || correspondencia[2] || correspondencia[3]);
+        });
+      });
+    });
+
+    for (var j = 0; j < candidatos.length; j += 1) {
+      var imagem = imagemPermitida(candidatos[j], feed);
+      if (imagem) return imagem;
+    }
+    return '';
   }
 
   function lerFeed(feed, resposta) {
@@ -87,7 +134,8 @@
         publisher: feed.publisher,
         category: feed.category,
         label: feed.label,
-        timestamp: Number.isFinite(timestamp) ? timestamp : 0
+        timestamp: Number.isFinite(timestamp) ? timestamp : 0,
+        image: imagemDoItem(feed, item)
       };
     }).filter(Boolean);
 
@@ -134,12 +182,33 @@
     }).format(new Date(timestamp));
   }
 
-  function criarNoticia(item) {
+  function criarNoticia(item, destaque) {
     var link = document.createElement('a');
-    link.className = 'news-item';
+    link.className = 'news-item' + (destaque ? ' news-item--featured' : '');
     link.href = item.url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
+
+    if (destaque && item.image) {
+      var moldura = document.createElement('span');
+      moldura.className = 'news-image-wrap';
+      var imagem = document.createElement('img');
+      imagem.className = 'news-image';
+      imagem.src = item.image;
+      imagem.alt = 'Imagem relacionada à matéria: ' + item.title;
+      imagem.loading = 'lazy';
+      imagem.decoding = 'async';
+      imagem.referrerPolicy = 'no-referrer';
+      var credito = document.createElement('span');
+      credito.className = 'news-image-credit';
+      credito.textContent = 'Imagem: ' + item.publisher;
+      moldura.append(imagem, credito);
+      imagem.addEventListener('error', function () {
+        moldura.remove();
+        link.classList.remove('news-item--featured');
+      }, { once: true });
+      link.appendChild(moldura);
+    }
 
     var meta = document.createElement('span');
     meta.className = 'news-meta';
@@ -182,8 +251,9 @@
       return;
     }
 
+    var destaque = exibidas.filter(function (item) { return item.image; })[0];
     exibidas.forEach(function (item) {
-      lista.appendChild(criarNoticia(item));
+      lista.appendChild(criarNoticia(item, item === destaque));
     });
   }
 
@@ -224,6 +294,7 @@
   function buscarNoticias() {
     if (carregando) return;
     carregando = true;
+    ultimaTentativa = Date.now();
     atualizar.disabled = true;
     atualizar.setAttribute('aria-busy', 'true');
     lista.setAttribute('aria-busy', 'true');
@@ -289,6 +360,12 @@
     });
   });
   atualizar.addEventListener('click', buscarNoticias);
+  window.setInterval(function () {
+    if (!document.hidden && Date.now() - ultimaTentativa >= INTERVALO_ATUALIZACAO) buscarNoticias();
+  }, INTERVALO_ATUALIZACAO);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && Date.now() - ultimaTentativa >= INTERVALO_ATUALIZACAO) buscarNoticias();
+  });
   window.BankSanNewsFeed = {
     subscribe: function (assinante) {
       if (typeof assinante !== 'function') throw new TypeError('O assinante do feed de notícias deve ser uma função.');
@@ -304,7 +381,8 @@
         assinantes = assinantes.filter(function (item) { return item !== assinante; });
       };
     },
-    refresh: buscarNoticias
+    refresh: buscarNoticias,
+    createArticle: criarNoticia
   };
   buscarNoticias();
 })();

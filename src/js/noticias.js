@@ -16,7 +16,7 @@
     ['Diversificação e risco', 'Não concentrar tudo em um só ativo reduz o impacto de um erro. Quanto maior o retorno esperado, em geral maior o risco.'],
     ['Reserva de emergência', 'Antes de arriscar, guarde dinheiro de fácil resgate para imprevistos, em geral em produtos de baixo risco e boa liquidez.']
   ];
-  view('noticias', '<article class="card news-card"><header class="card-head news-head"><div><h2>Notícias de investimento</h2><p class="section-subtitle">Manchetes atuais com links para as fontes originais.</p></div><button class="btn-small news-refresh" type="button" data-news-view-refresh>Atualizar notícias</button></header><p class="news-feed-disclosure">Fontes: Money Times, Valor Econômico e Agência Brasil (EBC). Feeds convertidos pelo RSS2JSON; as matérias abrem nos sites originais.</p><div class="news-tabs" role="tablist" aria-label="Categorias de notícias"><button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="news-invest" data-nt="invest">Notícias de investimento</button><button class="tab" type="button" role="tab" aria-selected="false" aria-controls="news-world" data-nt="world">Sobre o mundo do investimento</button></div>' +
+  view('noticias', '<article class="card news-card"><header class="card-head news-head"><div><h2>Notícias de investimento</h2><p class="section-subtitle">Manchetes atuais com links para as fontes originais.</p></div><button class="btn-small news-refresh" type="button" data-news-view-refresh>Atualizar notícias</button></header><p class="news-feed-disclosure">Fontes: Money Times, Valor Econômico e Agência Brasil (EBC). Atualização automática a cada 15 minutos enquanto o site estiver aberto; a frequência de novas manchetes depende de cada veículo. Imagens editoriais identificadas pela publicação.</p><div class="news-tabs" role="tablist" aria-label="Categorias de notícias"><button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="news-invest" data-nt="invest">Notícias de investimento</button><button class="tab" type="button" role="tab" aria-selected="false" aria-controls="news-world" data-nt="world">Sobre o mundo do investimento</button></div>' +
     '<div id="news-invest" role="tabpanel" tabindex="0"><p class="news-status" data-news-view-status role="status" aria-live="polite">Carregando manchetes...</p><div class="news-grid" data-news-view-list aria-live="polite" aria-busy="true"><p class="news-message">Buscando as últimas notícias...</p></div></div>' +
     '<div id="news-world" role="tabpanel" tabindex="0" hidden><h3 class="news-section-title">Mercados internacionais</h3><p class="news-status" data-news-world-status role="status" aria-live="polite">Carregando manchetes...</p><div class="news-grid" data-news-world-list aria-live="polite" aria-busy="true"><p class="news-message">Buscando notícias internacionais...</p></div><h3 class="news-section-title">Entenda os conceitos</h3><p class="aviso-edu">Conteúdo educativo. Não é recomendação de investimento.</p>' + TEMAS.map(function (t) { return '<details class="tema"><summary>' + t[0] + '</summary><p>' + t[1] + '</p></details>'; }).join('') + '</div></article>');
 
@@ -43,36 +43,10 @@
           : 'Nenhuma manchete disponível nesta categoria no momento.';
       lista.appendChild(vazio);
     } else {
-      items.slice(0, limite).forEach(function (item) {
-        var link = document.createElement('a');
-        link.className = 'news-item';
-        link.href = item.url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        var meta = document.createElement('span');
-        meta.className = 'news-meta';
-        var categoria = document.createElement('span');
-        categoria.className = 'news-category';
-        categoria.textContent = item.label;
-        var fonte = document.createElement('span');
-        fonte.className = 'news-source';
-        fonte.textContent = item.source;
-        meta.append(categoria, fonte);
-        var titulo = document.createElement('h3');
-        titulo.textContent = item.title;
-        var rodape = document.createElement('span');
-        rodape.className = 'news-item-foot';
-        var data = document.createElement('time');
-        data.textContent = item.timestamp
-          ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(item.timestamp))
-          : 'Data indisponível';
-        if (item.timestamp) data.dateTime = new Date(item.timestamp).toISOString();
-        var chamada = document.createElement('span');
-        chamada.className = 'news-read-more';
-        chamada.textContent = 'Ler no site original ↗';
-        rodape.append(data, chamada);
-        link.append(meta, titulo, rodape);
-        lista.appendChild(link);
+      var exibidas = items.slice(0, limite);
+      var destaque = exibidas.filter(function (item) { return item.image; })[0];
+      exibidas.forEach(function (item) {
+        lista.appendChild(window.BankSanNewsFeed.createArticle(item, item === destaque));
       });
     }
 
@@ -102,7 +76,7 @@
 
   if (!newsList || !newsStatus || !worldList || !worldStatus || !newsRefresh) throw new Error('A área de notícias não contém os controles esperados.');
   newsRefresh.addEventListener('click', function () { window.BankSanNewsFeed.refresh(); });
-  if (!window.BankSanNewsFeed) throw new Error('O serviço de notícias ainda não foi carregado.');
+  if (!window.BankSanNewsFeed || typeof window.BankSanNewsFeed.createArticle !== 'function') throw new Error('O serviço de notícias ainda não foi carregado.');
   window.BankSanNewsFeed.subscribe(renderizarFeeds);
   function aba(nome) {
     document.querySelectorAll('[data-nt]').forEach(function (b) {

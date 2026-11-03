@@ -271,7 +271,7 @@
     a.className = 'menu-item';
     a.href = 'src/pages/admin.html';
     a.style.cssText = 'display:block;text-decoration:none;';
-    a.textContent = 'Painel do administrador';
+    a.textContent = 'Contas conectadas';
     menu.appendChild(a);
   }
 

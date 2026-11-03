@@ -41,21 +41,21 @@ O site continua em HTML/CSS/JS no GitHub Pages.
 - Quando o feed traz uma foto editorial segura do próprio veículo, uma manchete em destaque pode exibi-la com crédito. As outras manchetes continuam em texto; não são usados logotipos ou imagens genéricas como se fossem fotos da matéria. Os links abrem no veículo original. O conteúdo é informativo e não constitui recomendação de investimento.
 - O gráfico BTC/USD usa uma série histórica demonstrativa informada no projeto, de maio de 2025 a abril de 2026. Não são cotações em tempo real nem indicação de compra ou venda.
 
-## Painel do administrador e convidados (conta de teste)
+## Contas conectadas: painel do administrador e convidados (conta de teste)
 
-Mostra só para você: quem criou conta, quem está online agora e quem entrou como convidado.
+O menu **Contas conectadas** aparece apenas para a conta autorizada como administradora no Supabase. Ele mostra quem criou conta, quem está online agora e quem entrou como convidado de teste. Isso monitora sessões no site; não conecta nem mostra contas bancárias.
 
 1. No SQL Editor, rode o `src/admin.sql` (depois do `schema.sql`).
-2. Crie a sua conta pela página de cadastro, com o e-mail que será só seu e uma senha forte.
-3. No SQL Editor, rode esta linha, trocando pelo seu e-mail:
+2. Crie sua própria conta pela página **Criar conta** do site com o e-mail que será seu. Defina e guarde sua senha diretamente no site; não a envie por mensagem nem a coloque no código ou no SQL.
+3. Confirme o e-mail, se o Supabase exigir. Depois, no SQL Editor, rode a linha abaixo trocando o endereço pelo mesmo e-mail cadastrado:
    `insert into public.admins (user_id) select id from auth.users where email = 'SEU-EMAIL@exemplo.com' on conflict do nothing;`
-4. Entre no site com essa conta. Aparece o item **Painel do administrador** no menu (só para você).
+4. Saia e entre novamente no site. O item **Contas conectadas** aparecerá no menu dessa conta.
    O endereço direto é `src/pages/admin.html`.
 5. Para o botão **Entrar como convidado** funcionar: em **Authentication > Sign In / Providers**,
    ligue **Anonymous sign-ins**. Ligue também o CAPTCHA (Cloudflare Turnstile ou hCaptcha) para ninguém
    encher o banco de convidados falsos.
 
-O que o painel mostra: nome, e-mail, tipo (conta ou convidado), data de criação, último acesso e se está online.
+O que o painel mostra: nome, e-mail, tipo (conta ou convidado), data de criação, último acesso e se está online. O acesso é validado no banco de dados; conhecer o endereço do painel ou alterar o menu no navegador não concede permissão.
 Não mostra senha, celular nem data de nascimento. Não guarda IP nem localização.
 "Online" é quem mandou sinal nos últimos 90 segundos enquanto está logado.
 

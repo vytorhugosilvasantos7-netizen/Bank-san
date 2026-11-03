@@ -223,7 +223,9 @@
     }
 
     svg.appendChild(svgElemento('path', { d: area, class: 'chart-area' }));
-    svg.appendChild(svgElemento('path', { d: linha, class: 'chart-line' }));
+    var linhaSvg = svgElemento('path', { d: linha, class: 'chart-line' });
+    linhaSvg.style.setProperty('--chart-line-length', linhaSvg.getTotalLength() + 'px');
+    svg.appendChild(linhaSvg);
     if (pontos.length === 1) {
       svg.appendChild(svgElemento('circle', {
         cx: pontos[0].x,

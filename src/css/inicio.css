@@ -118,7 +118,7 @@ ul { list-style: none; }
 .chart.is-hover .chart-vline,
 .chart.is-hover .chart-dot,
 .chart.is-hover .chart-tip { opacity: 1; }
-.chart-line { stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: chartLineDraw .9s cubic-bezier(.22, 1, .36, 1) forwards; }
+.chart-line { stroke-dasharray: var(--chart-line-length); stroke-dashoffset: var(--chart-line-length); animation: chartLineDraw .9s cubic-bezier(.22, 1, .36, 1) forwards; }
 @keyframes chartLineDraw { to { stroke-dashoffset: 0; } }
 .chart-controls { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 2px; }
 .chart-modes { display: inline-flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }

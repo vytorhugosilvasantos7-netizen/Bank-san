@@ -41,6 +41,12 @@ O site continua em HTML/CSS/JS no GitHub Pages.
 - Quando o feed traz uma foto editorial segura do próprio veículo, uma manchete em destaque pode exibi-la com crédito. As outras manchetes continuam em texto; não são usados logotipos ou imagens genéricas como se fossem fotos da matéria. Os links abrem no veículo original. O conteúdo é informativo e não constitui recomendação de investimento.
 - O gráfico BTC/USD usa uma série histórica demonstrativa informada no projeto, de maio de 2025 a abril de 2026. Não são cotações em tempo real nem indicação de compra ou venda.
 
+## Radar e filtro de ativos
+
+- O radar permite buscar por ticker, nome e setor; filtrar por classe (ação, FII ou ETF), faixa de preço, DY, P/L, P/VP e ROE; e ordenar os resultados pelas principais colunas.
+- O resumo, a média de DY e a distribuição por setor acompanham os filtros aplicados. A distribuição mostra quantidade de ativos, não alocação ou peso de carteira.
+- O universo atual de ativos e seus indicadores são fictícios e demonstrativos. Não são cotações atuais, avaliações de empresas nem recomendação de compra ou venda.
+
 ## Contas conectadas: painel do administrador e convidados (conta de teste)
 
 O menu **Contas conectadas** aparece apenas para a conta autorizada como administradora no Supabase. Ele mostra quem criou conta, quem está online agora e quem entrou como convidado de teste. Isso monitora sessões no site; não conecta nem mostra contas bancárias.

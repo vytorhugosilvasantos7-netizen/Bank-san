@@ -263,8 +263,8 @@
 .market-symbol-name, .compare-message { margin: 12px 0; color: var(--muted); font-size: .88rem; }
 .compare-message.is-error { color: var(--down); }
 .market-widget { width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
-.market-widget-main { height: min(68vh, 680px); min-height: 420px; }
-.market-widget-compare { height: min(64vh, 620px); min-height: 390px; }
+.market-widget-main { height: min(85vh, 1000px); min-height: 650px; }
+.market-widget-compare { height: min(80vh, 900px); min-height: 600px; }
 .tradingview-widget-container, .tradingview-widget-container__widget { width: 100%; height: 100%; }
 .tradingview-widget-copyright { padding: 6px 10px; font-size: .72rem; text-align: right; }
 .tradingview-widget-copyright a { color: var(--muted); }
@@ -294,7 +294,7 @@
   .simulator-kpis { grid-template-columns: 1fr; }
   .calendar-layout { grid-template-columns: 1fr; }
   .calendar-day { min-height: 38px; margin: 1px; }
-  .market-widget-main, .market-widget-compare { height: 62vh; min-height: 360px; }
+  .market-widget-main, .market-widget-compare { height: 76vh; min-height: 520px; }
 }
 @media (max-width: 420px) {
   .market-chart-controls, .compare-controls { grid-template-columns: 1fr; }

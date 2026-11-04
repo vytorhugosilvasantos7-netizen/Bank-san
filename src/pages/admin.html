@@ -16,11 +16,12 @@
 
     <header class="painel-topo">
       <div>
-        <h1>Painel do administrador</h1>
-        <p class="sub" id="atualizado">Carregando...</p>
+        <p class="eyebrow">BANK-SAN · ÁREA PRIVADA</p>
+        <h1>Contas conectadas</h1>
+        <p class="sub" id="atualizado" role="status" aria-live="polite">Verificando seu acesso...</p>
       </div>
       <div class="acoes">
-        <button class="btn-small" type="button" id="btnAtualizar">Atualizar agora</button>
+        <button class="btn-small" type="button" id="btnAtualizar"><span aria-hidden="true">↻</span> Atualizar agora</button>
         <a class="btn-small" href="../../index.html">Voltar ao site</a>
       </div>
     </header>
@@ -29,41 +30,48 @@
 
     <div id="conteudo" hidden>
 
-      <section class="resumo" aria-label="Resumo">
-        <article class="card kpi"><span class="kpi-rotulo">Online agora</span><strong id="kOnline">0</strong></article>
-        <article class="card kpi"><span class="kpi-rotulo">Contas criadas</span><strong id="kContas">0</strong></article>
-        <article class="card kpi"><span class="kpi-rotulo">Convidados (teste)</span><strong id="kConvidados">0</strong></article>
-        <article class="card kpi"><span class="kpi-rotulo">Novas em 24 h</span><strong id="k24h">0</strong></article>
-        <article class="card kpi"><span class="kpi-rotulo">Novas em 7 dias</span><strong id="k7d">0</strong></article>
+      <section class="resumo" aria-label="Resumo da atividade">
+        <article class="card kpi kpi-online"><span class="kpi-rotulo"><i aria-hidden="true"></i> Pessoas online</span><strong id="kOnline">0</strong><small>Atividade nos últimos 90 segundos</small></article>
+        <article class="card kpi"><span class="kpi-rotulo">Contas cadastradas</span><strong id="kContas">0</strong><small>Contas com e-mail</small></article>
+        <article class="card kpi"><span class="kpi-rotulo">Acessos de teste</span><strong id="kConvidados">0</strong><small>Contas temporárias de convidado</small></article>
+        <article class="card kpi"><span class="kpi-rotulo">Cadastros em 24 horas</span><strong id="k24h">0</strong><small>Novas contas com e-mail</small></article>
+        <article class="card kpi"><span class="kpi-rotulo">Cadastros em 7 dias</span><strong id="k7d">0</strong><small>Novas contas com e-mail</small></article>
       </section>
 
-      <article class="card">
-        <header class="card-head"><h2>Quem está online agora</h2><span class="nota">Conta como online quem mandou sinal nos últimos 90 segundos</span></header>
+      <article class="card admin-section">
+        <header class="card-head">
+          <div><p class="section-kicker">AGORA</p><h2>Atividade no site</h2><p class="sub">Contas autenticadas que enviaram sinal recentemente.</p></div>
+          <span class="section-status" id="statusOnline" role="status" aria-live="polite">Aguardando atualização</span>
+        </header>
+        <div class="activity-explainer"><strong>Como funciona:</strong> o site envia um sinal enquanto a pessoa está com uma página aberta. “Online” significa sinal recebido nos últimos 90 segundos. Registramos apenas a tela atual e o horário; não acompanhamos cliques, digitação, localização ou aparelho. Visitantes anônimos do GitHub Pages e o modo de demonstração local não aparecem aqui.</div>
         <div class="tabela-area">
-          <table>
-            <thead><tr><th>Quem</th><th>Tipo</th><th>Tela</th><th>Abas</th><th>Visto</th></tr></thead>
+          <table class="online-table">
+            <thead><tr><th scope="col">Pessoa</th><th scope="col">Acesso</th><th scope="col">Tela atual</th><th scope="col">Abas ativas</th><th scope="col">Último sinal</th></tr></thead>
             <tbody id="tbOnline"></tbody>
           </table>
         </div>
       </article>
 
-      <article class="card">
+      <article class="card admin-section">
         <header class="card-head">
-          <h2>Contas e convidados</h2>
+          <div><p class="section-kicker">CADASTROS</p><h2>Contas e acessos de teste</h2><p class="sub">Até 500 contas e convidados mais recentes.</p></div>
           <div class="filtros">
+            <label class="sr-only" for="busca">Buscar pelo nome ou e-mail</label>
             <input type="search" id="busca" placeholder="Buscar nome ou e-mail" autocomplete="off">
-            <button class="tab is-active" type="button" data-filtro="todos">Todos</button>
-            <button class="tab" type="button" data-filtro="contas">Contas</button>
-            <button class="tab" type="button" data-filtro="convidados">Convidados</button>
+            <div class="filter-tabs" role="group" aria-label="Filtrar cadastros">
+              <button class="tab is-active" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+              <button class="tab" type="button" data-filtro="contas" aria-pressed="false">Contas</button>
+              <button class="tab" type="button" data-filtro="convidados" aria-pressed="false">Convidados</button>
+            </div>
           </div>
         </header>
+        <div class="list-status-row"><span id="contagemLista" class="nota">Aguardando atualização</span><span id="statusLista" class="section-status" role="status" aria-live="polite"></span></div>
         <div class="tabela-area">
-          <table>
-            <thead><tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Criada em</th><th>Último acesso</th><th>Status</th></tr></thead>
+          <table class="accounts-table">
+            <thead><tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Tipo</th><th scope="col">Criada em</th><th scope="col">Último acesso</th><th scope="col">Status</th></tr></thead>
             <tbody id="tbUsuarios"></tbody>
           </table>
         </div>
-        <p class="nota" id="contagemLista"></p>
       </article>
 
     </div>

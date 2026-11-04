@@ -248,18 +248,26 @@
     if (document.hidden || !user) return;
     db.from('atividade')
       .upsert({ user_id: user.id, sessao: sessaoId, pagina: telaAtual(), ultimo_sinal: new Date().toISOString() }, { onConflict: 'user_id,sessao' })
-      .then(function () {}, function () {});
+      .then(function (r) {
+        if (r.error) console.warn('[Bank-San] O sinal de atividade não foi registrado.', r.error);
+      }, function (erro) {
+        console.warn('[Bank-San] Não foi possível enviar o sinal de atividade.', erro);
+      });
   }
   function iniciarAtividade() {
     sinal();
     setInterval(sinal, 40000);
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden) { db.from('atividade').delete().eq('sessao', sessaoId).then(function () {}, function () {}); }
+      if (document.hidden) {
+        db.from('atividade').delete().eq('sessao', sessaoId).then(function (r) {
+          if (r.error) console.warn('[Bank-San] Não foi possível encerrar o sinal de atividade.', r.error);
+        }, function (erro) {
+          console.warn('[Bank-San] Não foi possível encerrar o sinal de atividade.', erro);
+        });
+      }
       else { sinal(); }
     });
-    document.querySelectorAll('.menu-item[data-view], #btnPerfil').forEach(function (b) {
-      b.addEventListener('click', function () { setTimeout(sinal, 50); });
-    });
+    document.addEventListener('bs-view-change', function () { setTimeout(sinal, 50); });
   }
 
   async function mostrarLinkAdmin() {

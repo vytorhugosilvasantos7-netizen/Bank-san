@@ -5,14 +5,29 @@
 
   var db = window.bankSanDb;
   var $ = function (id) { return document.getElementById(id); };
-  var TELAS = { inicio: 'Início', config: 'Configurações', filtro: 'Filtro de ativos', carteira: 'Carteira', calendar: 'Calendário', compare: 'Comparador' };
+  var TELAS = {
+    inicio: 'Início',
+    config: 'Configurações',
+    filtro: 'Filtro de ativos',
+    carteira: 'Minha carteira / Simulador',
+    calendar: 'Calendário de proventos',
+    compare: 'Comparador de empresas',
+    noticias: 'Notícias',
+    conta: 'Planilha da conta'
+  };
 
   var usuarios = [];
   var filtro = 'todos';
-  var timerOnline = 0;
-  var timerLista = 0;
 
-  function aviso(texto) { $('aviso').textContent = texto || ''; $('aviso').hidden = !texto; }
+  function aviso(texto) {
+    $('aviso').textContent = texto || '';
+    $('aviso').hidden = !texto;
+  }
+  function status(id, texto, erro) {
+    var elemento = $(id);
+    elemento.textContent = texto || '';
+    elemento.classList.toggle('is-error', Boolean(erro));
+  }
 
   function ha(iso) {
     if (!iso) return 'nunca';
@@ -65,17 +80,27 @@
   }
 
   async function carregarOnline() {
-    var r = await Promise.all([db.rpc('admin_online'), db.rpc('admin_resumo')]);
-    if (r[0].error || r[1].error) { aviso('Não foi possível atualizar: ' + (r[0].error || r[1].error).message); return; }
-    aviso('');
-    desenharOnline(r[0].data || []);
-    var k = (r[1].data && r[1].data[0]) || {};
-    $('kOnline').textContent = k.online_agora || 0;
-    $('kContas').textContent = k.contas || 0;
-    $('kConvidados').textContent = k.convidados || 0;
-    $('k24h').textContent = k.novas_24h || 0;
-    $('k7d').textContent = k.novas_7d || 0;
-    $('atualizado').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR');
+    status('statusOnline', 'Atualizando atividade...');
+    try {
+      var r = await Promise.all([db.rpc('admin_online'), db.rpc('admin_resumo')]);
+      var erro = r[0].error || r[1].error;
+      if (erro) throw erro;
+      desenharOnline(r[0].data || []);
+      var k = (r[1].data && r[1].data[0]) || {};
+      $('kOnline').textContent = k.online_agora || 0;
+      $('kContas').textContent = k.contas || 0;
+      $('kConvidados').textContent = k.convidados || 0;
+      $('k24h').textContent = k.novas_24h || 0;
+      $('k7d').textContent = k.novas_7d || 0;
+      status('statusOnline', 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR'));
+      $('atualizado').textContent = 'Painel atualizado às ' + new Date().toLocaleTimeString('pt-BR');
+      return true;
+    } catch (erro) {
+      console.error('[Bank-San] Não foi possível atualizar a atividade do painel.', erro);
+      status('statusOnline', 'Falha ao atualizar atividade. Tente novamente.', true);
+      aviso('Não foi possível consultar a atividade. Confira a conexão e se src/admin.sql foi executado no Supabase.');
+      return false;
+    }
   }
 
   // ---------- Lista de contas ----------
@@ -106,18 +131,34 @@
       celula(tr, st);
       tb.appendChild(tr);
     });
-    $('contagemLista').textContent = vistos.length + ' de ' + usuarios.length + (usuarios.length >= 500 ? ' (mostrando os 500 mais recentes)' : '');
+    $('contagemLista').textContent = vistos.length + ' de ' + usuarios.length + (usuarios.length >= 500 ? ' (mostrando os 500 mais recentes)' : '') + ' exibidos';
   }
 
   async function carregarLista() {
-    var r = await db.rpc('admin_usuarios');
-    if (r.error) { aviso('Não foi possível carregar a lista: ' + r.error.message); return; }
-    usuarios = r.data || [];
-    desenharLista();
+    status('statusLista', 'Atualizando cadastros...');
+    try {
+      var r = await db.rpc('admin_usuarios');
+      if (r.error) throw r.error;
+      usuarios = r.data || [];
+      desenharLista();
+      status('statusLista', 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR'));
+      return true;
+    } catch (erro) {
+      console.error('[Bank-San] Não foi possível atualizar a lista de contas.', erro);
+      status('statusLista', 'Falha ao atualizar cadastros. Tente novamente.', true);
+      aviso('Não foi possível carregar os cadastros. Confira a conexão e se src/admin.sql foi executado no Supabase.');
+      return false;
+    }
   }
 
   async function atualizarTudo() {
-    await Promise.all([carregarOnline(), carregarLista()]);
+    var botao = $('btnAtualizar');
+    botao.disabled = true;
+    botao.setAttribute('aria-busy', 'true');
+    var resultados = await Promise.all([carregarOnline(), carregarLista()]);
+    if (resultados.every(Boolean)) aviso('');
+    botao.disabled = false;
+    botao.removeAttribute('aria-busy');
   }
 
   // ---------- Início ----------
@@ -127,21 +168,36 @@
       $('atualizado').textContent = 'Sem conexão';
       return;
     }
-    var s = await db.auth.getSession();
-    if (!s.data.session) { location.replace('entrada.html'); return; }
-
-    var ok = await db.rpc('eh_admin');
-    if (ok.error || ok.data !== true) {
-      aviso('Esta conta não tem permissão para ver o painel.');
-      $('atualizado').textContent = 'Acesso negado';
+    if (!db) {
+      aviso('Não foi possível conectar ao Supabase. Confira sua conexão e tente novamente.');
+      $('atualizado').textContent = 'Sem conexão';
       return;
     }
-    $('conteudo').hidden = false;
-    await atualizarTudo();
+    try {
+      var s = await db.auth.getSession();
+      if (s.error) throw s.error;
+      if (!s.data.session) { location.replace('entrada.html'); return; }
 
-    // Online a cada 15 s e a lista a cada 60 s (só com a aba visível)
-    timerOnline = setInterval(function () { if (!document.hidden) carregarOnline(); }, 15000);
-    timerLista = setInterval(function () { if (!document.hidden) carregarLista(); }, 60000);
+      var ok = await db.rpc('eh_admin');
+      if (ok.error) throw ok.error;
+      if (ok.data !== true) {
+        aviso('Esta conta não tem permissão para ver o painel. Entre com o e-mail autorizado como administrador.');
+        $('atualizado').textContent = 'Acesso não autorizado';
+        return;
+      }
+      $('conteudo').hidden = false;
+      await atualizarTudo();
+
+      setInterval(function () { if (!document.hidden) carregarOnline(); }, 15000);
+      setInterval(function () { if (!document.hidden) carregarLista(); }, 60000);
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden && !$('conteudo').hidden) atualizarTudo();
+      });
+    } catch (erro) {
+      console.error('[Bank-San] Não foi possível verificar o acesso administrativo.', erro);
+      aviso('Não foi possível verificar sua conta. Confira a conexão e tente entrar novamente.');
+      $('atualizado').textContent = 'Falha ao verificar acesso';
+    }
   }
 
   $('btnAtualizar').addEventListener('click', function () { if (!$('conteudo').hidden) atualizarTudo(); });
@@ -149,7 +205,11 @@
   document.querySelectorAll('[data-filtro]').forEach(function (b) {
     b.addEventListener('click', function () {
       filtro = b.dataset.filtro;
-      document.querySelectorAll('[data-filtro]').forEach(function (x) { x.classList.toggle('is-active', x === b); });
+      document.querySelectorAll('[data-filtro]').forEach(function (x) {
+        var ativo = x === b;
+        x.classList.toggle('is-active', ativo);
+        x.setAttribute('aria-pressed', String(ativo));
+      });
       desenharLista();
     });
   });

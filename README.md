@@ -63,7 +63,7 @@ O menu **Contas conectadas** aparece apenas para a conta autorizada como adminis
 
 O que o painel mostra: nome, e-mail, tipo (conta ou convidado), data de criação, último acesso e se está online. O acesso é validado no banco de dados; conhecer o endereço do painel ou alterar o menu no navegador não concede permissão.
 Não mostra senha, celular nem data de nascimento. Não guarda IP nem localização.
-"Online" é quem mandou sinal nos últimos 90 segundos enquanto está logado.
+"Online" é quem mandou sinal nos últimos 90 segundos enquanto está logado. O site atualiza o sinal a cada 40 segundos e registra a tela aberta; ao ocultar a aba, encerra o sinal daquela sessão. O painel atualiza a atividade a cada 15 segundos e a lista de contas a cada 60 segundos.
 
 Quem entra pelo modo demonstração (`?demo=1`), sem conta, não aparece: esse modo roda só no navegador da pessoa.
 

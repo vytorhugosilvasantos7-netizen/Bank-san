@@ -5,7 +5,17 @@
   var form = document.getElementById('formEntrada');
   var msg = document.getElementById('msgEntrada');
   var botao = form.querySelector('[type=submit]');
+  var campoSenha = document.getElementById('senhaEntrada');
+  var alternarSenha = document.getElementById('alternarSenha');
   function aviso(texto, erro) { msg.textContent = texto; msg.style.color = erro ? 'var(--down)' : 'inherit'; }
+
+  alternarSenha.addEventListener('click', function () {
+    var mostrar = campoSenha.type === 'password';
+    campoSenha.type = mostrar ? 'text' : 'password';
+    alternarSenha.textContent = mostrar ? 'Ocultar' : 'Mostrar';
+    alternarSenha.setAttribute('aria-label', mostrar ? 'Ocultar senha' : 'Mostrar senha');
+    alternarSenha.setAttribute('aria-pressed', String(mostrar));
+  });
 
   // Quem já está logado vai direto para o início
   if (window.bankSanConfigurado) {

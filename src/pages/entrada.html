@@ -21,9 +21,15 @@
   <main class="entrada">
     <h1>Entrar</h1>
     <p class="sub">Acesse sua conta Bank-San.</p>
-    <form id="formEntrada">
-      <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
-      <label>Senha<input name="password" type="password" autocomplete="current-password" required></label>
+    <form id="formEntrada" autocomplete="on">
+      <label for="emailEntrada">E-mail</label>
+      <input id="emailEntrada" name="email" type="email" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <label for="senhaEntrada">Senha</label>
+      <div class="campo-senha">
+        <input id="senhaEntrada" name="password" type="password" autocomplete="current-password" required>
+        <button type="button" class="alternar-senha" id="alternarSenha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+      </div>
+      <p class="dica-senha">Seu navegador pode oferecer contas salvas neste dispositivo. O Bank-San não salva sua senha.</p>
       <button type="submit">Entrar</button>
       <p id="msgEntrada" role="status"></p>
     </form>

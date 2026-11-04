@@ -8,6 +8,11 @@ body { min-height: 100vh; display: grid; place-items: center; padding: 20px; bac
 label { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; font-size: .9rem; color: var(--muted); }
 input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; font: inherit; }
 input:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.campo-senha { display: flex; align-items: center; gap: 8px; }
+.campo-senha input { width: 100%; min-width: 0; }
+.campo-senha .alternar-senha { width: auto; flex: 0 0 auto; margin: 0; padding: 8px 10px; background: transparent; color: var(--text); border: 1px solid var(--line); font-size: .82rem; }
+.campo-senha .alternar-senha:hover { border-color: var(--text); }
+.dica-senha { margin-top: 6px; color: var(--muted); font-size: .76rem; }
 button { width: 100%; margin-top: 20px; background: var(--text); color: var(--bg); border: 0; border-radius: 10px; padding: 12px; font: inherit; font-weight: 600; cursor: pointer; }
 button:disabled { opacity: .6; cursor: wait; }
 #msgEntrada { margin-top: 12px; min-height: 1.2em; font-size: .9rem; }

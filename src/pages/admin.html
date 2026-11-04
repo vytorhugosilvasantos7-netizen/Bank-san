@@ -40,6 +40,17 @@
 
       <article class="card admin-section">
         <header class="card-head">
+          <div><p class="section-kicker">CRESCIMENTO</p><h2>Evolução dos cadastros</h2><p class="sub">Novas contas e convidados por dia nos últimos 30 dias.</p></div>
+          <span class="section-status" id="statusEvolucao" role="status" aria-live="polite">Aguardando atualização</span>
+        </header>
+        <div class="chart-legend" aria-hidden="true"><span><i class="legend-contas"></i>Contas</span><span><i class="legend-convidados"></i>Convidados</span></div>
+        <div id="graficoEvolucao" class="growth-chart" role="img" aria-label="Gráfico de novos cadastros diários dos últimos 30 dias">
+          <p class="chart-empty">Carregando evolução...</p>
+        </div>
+      </article>
+
+      <article class="card admin-section">
+        <header class="card-head">
           <div><p class="section-kicker">AGORA</p><h2>Atividade no site</h2><p class="sub">Contas autenticadas que enviaram sinal recentemente.</p></div>
           <span class="section-status" id="statusOnline" role="status" aria-live="polite">Aguardando atualização</span>
         </header>
@@ -54,24 +65,29 @@
 
       <article class="card admin-section">
         <header class="card-head">
-          <div><p class="section-kicker">CADASTROS</p><h2>Contas e acessos de teste</h2><p class="sub">Até 500 contas e convidados mais recentes.</p></div>
-          <div class="filtros">
-            <label class="sr-only" for="busca">Buscar pelo nome ou e-mail</label>
-            <input type="search" id="busca" placeholder="Buscar nome ou e-mail" autocomplete="off">
-            <div class="filter-tabs" role="group" aria-label="Filtrar cadastros">
-              <button class="tab is-active" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
-              <button class="tab" type="button" data-filtro="contas" aria-pressed="false">Contas</button>
-              <button class="tab" type="button" data-filtro="convidados" aria-pressed="false">Convidados</button>
-            </div>
-          </div>
+          <div><p class="section-kicker">CADASTROS</p><h2>Contas e convidados</h2><p class="sub">Listas separadas; até 500 cadastros mais recentes no total.</p></div>
+          <label class="sr-only" for="busca">Buscar pelo nome ou e-mail</label>
+          <input class="busca-cadastros" type="search" id="busca" placeholder="Buscar nome ou e-mail" autocomplete="off">
         </header>
         <div class="list-status-row"><span id="contagemLista" class="nota">Aguardando atualização</span><span id="statusLista" class="section-status" role="status" aria-live="polite"></span></div>
-        <div class="tabela-area">
-          <table class="accounts-table">
-            <thead><tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Tipo</th><th scope="col">Criada em</th><th scope="col">Último acesso</th><th scope="col">Status</th></tr></thead>
-            <tbody id="tbUsuarios"></tbody>
-          </table>
-        </div>
+        <section class="account-group" aria-labelledby="accountsTitle">
+          <header class="account-group-head"><h3 id="accountsTitle">Contas cadastradas</h3><span class="count-badge" id="contagemContas">0</span></header>
+          <div class="tabela-area">
+            <table class="accounts-table">
+              <thead><tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Criada em</th><th scope="col">Último acesso</th><th scope="col">Status</th></tr></thead>
+              <tbody id="tbContas"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="account-group" aria-labelledby="guestsTitle">
+          <header class="account-group-head"><h3 id="guestsTitle">Convidados de teste</h3><span class="count-badge count-badge-guest" id="contagemConvidados">0</span></header>
+          <div class="tabela-area">
+            <table class="accounts-table">
+              <thead><tr><th scope="col">Identificação</th><th scope="col">Criado em</th><th scope="col">Último acesso</th><th scope="col">Status</th></tr></thead>
+              <tbody id="tbConvidados"></tbody>
+            </table>
+          </div>
+        </section>
       </article>
 
     </div>

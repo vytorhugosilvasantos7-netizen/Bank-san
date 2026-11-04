@@ -179,12 +179,37 @@ begin
 end;
 $$;
 
+create or replace function public.admin_evolucao()
+returns table (dia date, contas bigint, convidados bigint)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if not public.eh_admin() then
+    raise exception 'Acesso negado';
+  end if;
+
+  return query
+  select
+    dias.dia::date,
+    count(u.id) filter (where not coalesce(u.is_anonymous, false)),
+    count(u.id) filter (where coalesce(u.is_anonymous, false))
+  from generate_series((current_date - 29)::timestamp, current_date::timestamp, interval '1 day') as dias(dia)
+  left join auth.users u on u.created_at::date = dias.dia::date
+  group by dias.dia
+  order by dias.dia;
+end;
+$$;
+
 revoke execute on function public.admin_resumo()   from public, anon;
 revoke execute on function public.admin_usuarios() from public, anon;
 revoke execute on function public.admin_online()   from public, anon;
+revoke execute on function public.admin_evolucao()  from public, anon;
 grant  execute on function public.admin_resumo()   to authenticated;
 grant  execute on function public.admin_usuarios() to authenticated;
 grant  execute on function public.admin_online()   to authenticated;
+grant  execute on function public.admin_evolucao()  to authenticated;
 
 -- ---------- 5. TORNAR VOCÊ ADMINISTRADOR (faça depois de criar sua conta no site) ----------
 -- 1) Crie sua conta pela página de cadastro com o e-mail que será só seu.

@@ -54,7 +54,9 @@ O site continua em HTML/CSS/JS no GitHub Pages.
 
 O menu **Contas conectadas** aparece apenas para a conta autorizada como administradora no Supabase. Ele mostra quem criou conta, quem está online agora e quem entrou como convidado de teste. Isso monitora sessões no site; não conecta nem mostra contas bancárias.
 
-1. No SQL Editor, rode o `src/admin.sql` (depois do `schema.sql`).
+1. No SQL Editor, rode o `src/admin.sql` (depois do `schema.sql`). Para atualizar o painel com o gráfico
+   de evolução, rode novamente a versão mais recente de `src/admin.sql`; isso instala a função protegida
+   `admin_evolucao()`.
 2. Crie sua própria conta pela página **Criar conta** do site com o e-mail que será seu. Defina e guarde sua senha diretamente no site; não a envie por mensagem nem a coloque no código ou no SQL.
 3. No SQL Editor, rode a linha abaixo trocando o endereço pelo mesmo e-mail cadastrado:
    `insert into public.admins (user_id) select id from auth.users where email = 'SEU-EMAIL@exemplo.com' on conflict do nothing;`
@@ -64,7 +66,7 @@ O menu **Contas conectadas** aparece apenas para a conta autorizada como adminis
    ligue **Anonymous sign-ins**. Ligue também o CAPTCHA (Cloudflare Turnstile ou hCaptcha) para ninguém
    encher o banco de convidados falsos.
 
-O que o painel mostra: nome, e-mail, tipo (conta ou convidado), data de criação, último acesso e se está online. O acesso é validado no banco de dados; conhecer o endereço do painel ou alterar o menu no navegador não concede permissão.
+O painel separa a lista de contas cadastradas da lista de convidados de teste e inclui um gráfico diário dos novos cadastros dos últimos 30 dias. O gráfico e as listas consultam dados reais do Supabase. O painel mostra nome, e-mail, tipo, data de criação, último acesso e se está online. O acesso é validado no banco de dados; conhecer o endereço do painel ou alterar o menu no navegador não concede permissão.
 Não mostra senha, celular nem data de nascimento. Não guarda IP nem localização.
 "Online" é quem mandou sinal nos últimos 90 segundos enquanto está logado. O site atualiza o sinal a cada 40 segundos e registra a tela aberta; ao ocultar a aba, encerra o sinal daquela sessão. O painel atualiza a atividade a cada 15 segundos e a lista de contas a cada 60 segundos.
 

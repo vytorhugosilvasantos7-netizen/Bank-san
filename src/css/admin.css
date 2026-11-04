@@ -41,12 +41,29 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .kpi-online .kpi-rotulo i { width: 7px; height: 7px; border-radius: 50%; background: var(--up); box-shadow: 0 0 0 4px rgb(34 197 94 / 14%); }
 #kOnline { color: var(--up); }
 
-.filtros { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.filtros input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 7px 12px; font: inherit; font-size: .9rem; min-width: 210px; }
-.filtros input::placeholder { color: var(--muted); }
-.filter-tabs { display: flex; gap: 6px; }
-.tab { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; color: var(--muted); font-size: .85rem; }
-.tab.is-active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.busca-cadastros { width: min(100%, 290px); background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; font: inherit; font-size: .9rem; }
+.busca-cadastros::placeholder { color: var(--muted); }
+.account-group + .account-group { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+.account-group-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.account-group-head h3 { font-size: .95rem; font-weight: 600; }
+.count-badge { min-width: 28px; padding: 2px 8px; border: 1px solid rgb(34 197 94 / 35%); border-radius: 999px; color: var(--up); text-align: center; font-size: .75rem; }
+.count-badge-guest { color: #EAB308; border-color: rgb(234 179 8 / 40%); }
+
+.chart-legend { display: flex; gap: 18px; margin: -4px 0 4px; color: var(--muted); font-size: .78rem; }
+.chart-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.chart-legend i { width: 9px; height: 9px; border-radius: 50%; }
+.legend-contas { background: var(--up); }
+.legend-convidados { background: #eab308; }
+.growth-chart { min-height: 165px; }
+.growth-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-grid { stroke: var(--line); stroke-width: 1; }
+.chart-axis { fill: var(--muted); font-size: 11px; }
+.chart-line-accounts, .chart-line-guests { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.chart-line-accounts { stroke: var(--up); }
+.chart-line-guests { stroke: #eab308; }
+.chart-line-accounts-dot { fill: var(--up); }
+.chart-line-guests-dot { fill: #eab308; }
+.chart-empty { min-height: 145px; display: grid; place-items: center; color: var(--muted); font-size: .85rem; text-align: center; }
 
 .tabela-area { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: .9rem; }
@@ -57,6 +74,7 @@ tbody tr:hover td { background: rgb(255 255 255 / 3%); }
 td.vazio { color: var(--muted); text-align: center; padding: 22px; white-space: normal; }
 .online-table { min-width: 660px; }
 .accounts-table { min-width: 760px; }
+.account-group .accounts-table { min-width: 680px; }
 
 .etiqueta { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .78rem; border: 1px solid var(--line); color: var(--muted); }
 .etiqueta.convidado { color: #EAB308; border-color: #EAB308; }
@@ -74,10 +92,7 @@ td.vazio { color: var(--muted); text-align: center; padding: 22px; white-space: 
   .resumo .card { padding: 14px; }
   .kpi strong { font-size: 1.7rem; }
   .admin-section { padding: 15px; }
-  .filtros { width: 100%; }
-  .filtros input { min-width: 0; flex: 1 1 100%; }
-  .filter-tabs { width: 100%; }
-  .tab { flex: 1; }
+  .busca-cadastros { width: 100%; }
   .section-status { width: 100%; }
 }
 @media (max-width: 380px) { .resumo { grid-template-columns: 1fr; } .acoes { width: 100%; } .acoes > * { flex: 1; text-align: center; } }

@@ -41,7 +41,7 @@
         password: form.elements.password.value
       });
       if (r.error) {
-        aviso(/invalid login/i.test(r.error.message) ? 'E-mail ou senha incorretos.' : /not confirmed/i.test(r.error.message) ? 'Confirme seu e-mail antes de entrar.' : 'Não foi possível entrar. Confira seus dados e tente novamente.', true);
+        aviso(/invalid login/i.test(r.error.message) ? 'E-mail ou senha incorretos.' : /not confirmed/i.test(r.error.message) ? 'Esta conta ainda aguarda confirmação. O administrador precisa desativar “Confirm email” no Supabase e resolver o cadastro pendente.' : 'Não foi possível entrar. Confira seus dados e tente novamente.', true);
         return;
       }
       window.bankSanSairDoModoTeste();

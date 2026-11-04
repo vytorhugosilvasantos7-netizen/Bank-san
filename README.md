@@ -16,8 +16,11 @@ O site continua em HTML/CSS/JS no GitHub Pages.
 4. Cole os dois valores em `src/js/supabase-config.js`.
 5. Abra **Authentication > URL Configuration** e coloque em **Site URL** o endereço do seu site no GitHub Pages
    (algo como `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`).
-6. Em **Authentication > Sign In / Providers > Email**, decida se exige confirmar o e-mail (recomendado).
-   Com a confirmação ligada, a pessoa só entra depois de clicar no link que chega por e-mail.
+6. Para a pessoa entrar direto após o cadastro, abra **Authentication > Sign In / Providers > Email**
+   e desative **Confirm email**. Essa opção é uma configuração do projeto no Supabase e não pode ser
+   alterada pelo código do site. Com ela desligada, o Supabase cria a sessão no cadastro e o site
+   encaminha a pessoa para a página inicial. Cadastros já existentes que aguardam confirmação podem
+   precisar ser confirmados ou recriados no Supabase.
 
 ## Regras de ouro
 
@@ -53,7 +56,7 @@ O menu **Contas conectadas** aparece apenas para a conta autorizada como adminis
 
 1. No SQL Editor, rode o `src/admin.sql` (depois do `schema.sql`).
 2. Crie sua própria conta pela página **Criar conta** do site com o e-mail que será seu. Defina e guarde sua senha diretamente no site; não a envie por mensagem nem a coloque no código ou no SQL.
-3. Confirme o e-mail, se o Supabase exigir. Depois, no SQL Editor, rode a linha abaixo trocando o endereço pelo mesmo e-mail cadastrado:
+3. No SQL Editor, rode a linha abaixo trocando o endereço pelo mesmo e-mail cadastrado:
    `insert into public.admins (user_id) select id from auth.users where email = 'SEU-EMAIL@exemplo.com' on conflict do nothing;`
 4. Saia e entre novamente no site. O item **Contas conectadas** aparecerá no menu dessa conta.
    O endereço direto é `src/pages/admin.html`.

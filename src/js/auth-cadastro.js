@@ -74,8 +74,7 @@
         if (window.bankSanSairDoModoTeste) window.bankSanSairDoModoTeste();
         location.href = '../../index.html';
       } else {
-        aviso('Conta criada. Confirme o e-mail que enviamos e depois entre.');
-        form.reset();
+        aviso('O Supabase ainda está exigindo confirmação por e-mail. Para entrar direto, o administrador precisa desativar “Confirm email” em Authentication > Sign In / Providers > Email.', true);
       }
     } catch (erro) {
       aviso('Não foi possível conectar para criar a conta. Confira sua conexão e tente novamente.', true);

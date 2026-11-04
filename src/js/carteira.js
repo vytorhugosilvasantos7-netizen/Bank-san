@@ -4,7 +4,7 @@
   var A = window.BankSanAreas;
   if (!A) return;
   var $ = A.$;
-  var simbolos = window.BankSanMarketSymbols || [];
+  var simbolos = (window.BankSanMarketSymbols || []).filter(function (item) { return item.mercado !== 'EUA'; });
   var brl = function (valor) {
     return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   };

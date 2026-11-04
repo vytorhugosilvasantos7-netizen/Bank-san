@@ -83,7 +83,8 @@ dizendo que o administrador consegue ver nome, e-mail e quando a conta está ati
 
 ## Gráficos de mercado
 
-- A área **Gráficos do mercado** e o comparador usam widgets de gráficos do TradingView para tickers de ações, FIIs, ETFs, índices, câmbio e Bitcoin.
+- A área **Gráficos do mercado** e o comparador usam widgets de gráficos do TradingView e oferecem mais de 100 opções de ações brasileiras e americanas, FIIs, ETFs, índices, câmbio e Bitcoin.
+- Pesquise pelo ticker ou pelo nome da empresa. Para evitar misturar cotações em reais e dólares, o comparador aceita ativos apenas do mesmo mercado.
 - A atualização, o atraso e a disponibilidade dos dados dependem do instrumento, da bolsa e do TradingView; confirme o horário e a fonte no widget. O site não promete cotações em tempo real.
 - A carteira guarda a quantidade e o preço médio informados pelo usuário. O total mostrado é capital informado/investido, não uma avaliação atual baseada em cotações.
 - O TradingView não fornece a agenda de datas-com e pagamentos usada pelo calendário de proventos. A tela não gera datas ou valores fictícios; uma agenda oficial exige integrar uma fonte de proventos específica.

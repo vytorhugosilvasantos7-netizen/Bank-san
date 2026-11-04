@@ -46,6 +46,11 @@
       mensagem.classList.add('is-error');
       return false;
     }
+    if (principal.mercado !== segundo.mercado) {
+      mensagem.textContent = 'Compare ativos do mesmo mercado para não misturar cotações em moedas diferentes.';
+      mensagem.classList.add('is-error');
+      return false;
+    }
     mensagem.classList.remove('is-error');
     mensagem.textContent = principal.nome + ' (' + principal.ticker + ') × ' + segundo.nome + ' (' + segundo.ticker + ')';
     return window.BankSanTradingView.montar($('#cmpGrafico'), principal.simbolo, {

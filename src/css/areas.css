@@ -191,7 +191,7 @@
 .tema[open] summary { color: var(--up); }
 
 .nav-mes { display: inline-flex; align-items: center; gap: 10px; }
-.nav-mes strong { min-width: 130px; text-align: center; text-transform: capitalize; }
+.nav-mes strong { min-width: 130px; text-align: center; }
 .nav-mes .btn-small { transition: transform .2s ease, border-color .2s ease; }
 .nav-mes .btn-small:hover { transform: scale(1.06); }
 .chk { display: inline-flex; align-items: center; gap: 8px; margin: 8px 0; color: var(--muted); }
@@ -215,6 +215,94 @@
   .news-tabs .tab,
   .news-item,
   .nav-mes .btn-small { transition: none; }
+}
+
+.area-page-heading { margin: 4px 0 18px; }
+.area-page-heading h2 { font-size: clamp(1.45rem, 3vw, 2rem); }
+.area-page-heading > p:last-child { margin-top: 5px; color: var(--muted); }
+.area-eyebrow { margin-bottom: 4px; color: var(--up); font-size: .72rem; font-weight: 700; letter-spacing: .12em; }
+.portfolio-card, .simulator-card, .market-chart-card, .compare-card, .dividend-calendar { padding: clamp(16px, 3vw, 24px); }
+.portfolio-form, .market-chart-controls, .compare-controls { align-items: end; }
+.portfolio-form > label { flex: 1 1 150px; }
+.portfolio-status { min-height: 1.2em; margin: -4px 0 12px; color: var(--muted); font-size: .82rem; }
+.portfolio-status.is-error { color: var(--down); }
+.portfolio-form select, .portfolio-form input,
+.market-chart-controls input, .market-chart-controls select,
+.compare-controls input, .compare-controls select { flex: none; width: 100%; min-height: 42px; }
+.portfolio-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+.portfolio-summary > div { display: flex; flex-direction: column; gap: 4px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.portfolio-summary small { color: var(--muted); }
+.portfolio-summary strong { font-size: 1.25rem; }
+.portfolio-allocation { margin: 16px 0; }
+.portfolio-allocation:empty { display: none; }
+.allocation-bars { display: grid; gap: 12px; }
+.allocation-row { display: grid; gap: 6px; }
+.allocation-label { display: flex; justify-content: space-between; gap: 10px; font-size: .8rem; }
+.allocation-label span { color: var(--muted); text-align: right; }
+.allocation-track { height: 7px; overflow: hidden; border-radius: 999px; background: var(--line); }
+.allocation-track span { display: block; height: 100%; border-radius: inherit; background: var(--allocation-color); transition: width .45s ease; }
+.simulator-form { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.simulator-form label { min-width: 0; }
+.simulator-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sim-chart-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.sim-chart-heading h4 { font-size: .95rem; }
+.grafico-sim { min-height: 190px; padding: 8px 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.grafico-sim svg { display: block; width: 100%; height: auto; overflow: visible; }
+.sim-grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; }
+.sim-axis { fill: var(--muted); font: 10px system-ui, sans-serif; }
+.sim-area { fill: url(#sim-gradiente); }
+.sim-total, .sim-inv { fill: none; stroke-width: 2.5; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.sim-total { stroke: var(--up); stroke-dasharray: var(--sim-line-length); stroke-dashoffset: var(--sim-line-length); animation: chartLineDraw .9s cubic-bezier(.22, 1, .36, 1) forwards; }
+.sim-inv { stroke: var(--muted); stroke-dasharray: 5 4; }
+.sim-point { fill: var(--up); stroke: var(--panel); stroke-width: 2; }
+.sim-total-i { background: var(--up); }
+.sim-inv-i { background: var(--muted); }
+
+.market-chart-controls, .compare-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
+.market-chart-controls .btn, .compare-controls .btn { min-height: 42px; }
+.market-symbol-name, .compare-message { margin: 12px 0; color: var(--muted); font-size: .88rem; }
+.compare-message.is-error { color: var(--down); }
+.market-widget { width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.market-widget-main { height: min(68vh, 680px); min-height: 420px; }
+.market-widget-compare { height: min(64vh, 620px); min-height: 390px; }
+.tradingview-widget-container, .tradingview-widget-container__widget { width: 100%; height: 100%; }
+.tradingview-widget-copyright { padding: 6px 10px; font-size: .72rem; text-align: right; }
+.tradingview-widget-copyright a { color: var(--muted); }
+.tv-widget-error { display: grid; min-height: 180px; place-items: center; padding: 20px; color: var(--muted); text-align: center; }
+#cardGrafico[data-chart-display-mode="btc"] .chart { height: 400px; }
+.chart-tradingview .tradingview-widget-container { height: 100%; }
+
+.calendar-data-note { margin: 14px 0 20px; padding: 14px 16px; border: 1px solid color-mix(in srgb, var(--up), transparent 60%); border-radius: 12px; background: color-mix(in srgb, var(--up), transparent 94%); }
+.calendar-data-note strong { font-size: .9rem; }
+.calendar-data-note p { margin-top: 5px; color: var(--muted); font-size: .84rem; }
+.calendar-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(220px, .8fr); gap: 18px; }
+.calendar-month, .calendar-agenda { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.calendar-weekdays, .calendar-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; }
+.calendar-weekdays { color: var(--muted); font-size: .75rem; }
+.calendar-day { display: grid; min-height: 44px; place-items: center; margin: 3px; border: 1px solid transparent; border-radius: 9px; color: var(--text); font-size: .85rem; }
+.calendar-day.is-empty { visibility: hidden; }
+.calendar-day.is-today { border-color: var(--up); color: var(--up); font-weight: 700; }
+.calendar-agenda h3 { margin-bottom: 8px; font-size: .95rem; }
+.calendar-agenda h3:not(:first-child) { margin-top: 22px; }
+.calendar-empty, .calendar-portfolio-note { color: var(--muted); font-size: .82rem; }
+.calendar-agenda .btn-small { margin-top: 12px; }
+.nav-mes .btn-small { min-width: 40px; }
+.chart-tradingview svg { display: none; }
+
+@media (max-width: 700px) {
+  .simulator-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .simulator-kpis { grid-template-columns: 1fr; }
+  .calendar-layout { grid-template-columns: 1fr; }
+  .calendar-day { min-height: 38px; margin: 1px; }
+  .market-widget-main, .market-widget-compare { height: 62vh; min-height: 360px; }
+}
+@media (max-width: 420px) {
+  .market-chart-controls, .compare-controls { grid-template-columns: 1fr; }
+  .portfolio-summary { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sim-total { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+  .allocation-track span { transition: none; }
 }
 
 .view.is-active > .card {

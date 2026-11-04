@@ -42,7 +42,7 @@ O site continua em HTML/CSS/JS no GitHub Pages.
 - As manchetes vêm dos feeds RSS públicos de Money Times, Valor Econômico e Agência Brasil (EBC). O RSS2JSON converte os feeds para funcionar no site estático; são enviadas ao serviço somente as URLs públicas dos feeds, nunca dados da conta. É necessária uma conexão com a internet; se uma fonte estiver indisponível, as demais continuam disponíveis.
 - As notícias são atualizadas ao abrir a página, manualmente pelo botão ou automaticamente a cada 15 minutos enquanto o site estiver aberto. Isso atualiza a consulta aos feeds; a publicação de novas matérias depende de cada veículo e não é garantida em tempo real.
 - Quando o feed traz uma foto editorial segura do próprio veículo, uma manchete em destaque pode exibi-la com crédito. As outras manchetes continuam em texto; não são usados logotipos ou imagens genéricas como se fossem fotos da matéria. Os links abrem no veículo original. O conteúdo é informativo e não constitui recomendação de investimento.
-- O gráfico BTC/USD usa uma série histórica demonstrativa informada no projeto, de maio de 2025 a abril de 2026. Não são cotações em tempo real nem indicação de compra ou venda.
+- O gráfico BTC/USD usa o widget TradingView; a atualização e o atraso dependem do mercado e do provedor. Confira as informações exibidas no próprio widget.
 
 ## Radar e filtro de ativos
 
@@ -79,4 +79,12 @@ dizendo que o administrador consegue ver nome, e-mail e quando a conta está ati
 
 - Os cartões cadastrados aparecem em **Minhas contas**. Ao abrir um cartão, o painel lista os gastos registrados nele e permite baixar a tabela em CSV, compatível com planilhas.
 - Isso não conecta ao banco: não são solicitados login, senha bancária ou acesso à conta.
-- A carteira de investimentos é preenchida manualmente e salva no navegador. Ela é exibida como carteira geral, sem associação a um banco ou cartão; os preços disponíveis são dados demonstrativos.
+- A carteira de investimentos é preenchida manualmente e salva no navegador. Ela é exibida como carteira geral, sem associação a um banco ou cartão; o preço médio e a quantidade são informados pelo usuário.
+
+## Gráficos de mercado
+
+- A área **Gráficos do mercado** e o comparador usam widgets de gráficos do TradingView para tickers de ações, FIIs, ETFs, índices, câmbio e Bitcoin.
+- A atualização, o atraso e a disponibilidade dos dados dependem do instrumento, da bolsa e do TradingView; confirme o horário e a fonte no widget. O site não promete cotações em tempo real.
+- A carteira guarda a quantidade e o preço médio informados pelo usuário. O total mostrado é capital informado/investido, não uma avaliação atual baseada em cotações.
+- O TradingView não fornece a agenda de datas-com e pagamentos usada pelo calendário de proventos. A tela não gera datas ou valores fictícios; uma agenda oficial exige integrar uma fonte de proventos específica.
+- Referências: [widgets de gráficos do TradingView](https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/) e [documentação de soluções TradingView](https://www.tradingview.com/widget-docs/solutions/).

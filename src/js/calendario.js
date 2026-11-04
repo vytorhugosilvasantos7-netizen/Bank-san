@@ -3,36 +3,60 @@
   'use strict';
   var A = window.BankSanAreas;
   if (!A) return;
-  var M = A.M, $ = A.$, brl = A.brl, num = A.num, cor = A.cor, achar = A.achar, AVISO = A.AVISO, view = A.view, opcoes = A.opcoes;
+  var $ = A.$;
+  var mes = new Date();
+  mes.setDate(1);
 
-  // ---------- CALENDÁRIO DE PROVENTOS ----------
-  var cart = A.carteira || [];
-  var mes = new Date(); mes.setDate(1);
-  view('calendar', '<article class="card"><header class="card-head"><h2>Calendário de proventos</h2><div class="nav-mes"><button class="btn-small" id="mAnt" type="button">&lt;</button><strong id="mNome"></strong><button class="btn-small" id="mProx" type="button">&gt;</button></div></header>' + AVISO +
-    '<label class="chk"><input type="checkbox" id="mMeus"> Só os ativos da minha carteira</label><ul class="expenses" id="mLista"></ul><p class="total-linha">Estimado no mês (carteira): <strong id="mTotal">R$ 0,00</strong></p></article>');
-  function eventos(ano, m) {
-    var ev = [];
-    M.ativos.forEach(function (a) {
-      if (!a.dy) return;
-      var fii = a.tipo === 'FII', h = a.t.charCodeAt(1) % 20 + 5;
-      if (!fii && (m % 3) !== (a.t.charCodeAt(0) % 3)) return;
-      ev.push({ a: a, dia: h, valor: a.preco * a.dy / 100 / (fii ? 12 : 4), tipo: fii ? 'Rendimento' : 'Dividendo' });
-    });
-    return ev.sort(function (x, y) { return x.dia - y.dia; });
+  A.view('calendar',
+    '<article class="card dividend-calendar">' +
+      '<header class="card-head"><div><p class="area-eyebrow">AGENDA DO INVESTIDOR</p><h2>Calendário de proventos</h2><p class="chart-name">Consulte o mês e acompanhe suas posições sem registrar eventos manualmente.</p></div>' +
+      '<div class="nav-mes"><button class="btn-small" id="mAnt" type="button" aria-label="Mês anterior">←</button><strong id="mNome"></strong><button class="btn-small" id="mProx" type="button" aria-label="Próximo mês">→</button></div></header>' +
+      '<div class="calendar-data-note"><strong>Agenda oficial ainda não conectada.</strong><p>Os widgets do TradingView exibem gráficos e cotações, mas não fornecem a agenda de datas-com e pagamentos de proventos para este calendário. Para não exibir datas ou valores inventados, os eventos aparecerão aqui quando uma fonte oficial de proventos for integrada.</p></div>' +
+      '<div class="calendar-layout"><section class="calendar-month" aria-label="Calendário mensal"><div class="calendar-weekdays" aria-hidden="true"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div><div id="calendarDays" class="calendar-days"></div></section>' +
+      '<aside class="calendar-agenda"><h3>Proventos do mês</h3><p class="calendar-empty" id="calendarEmpty">Nenhuma data oficial disponível para este período.</p><h3>Minha carteira</h3><p class="calendar-portfolio-note" id="calendarPortfolio">Nenhum ativo na carteira manual.</p><button class="btn-small" type="button" id="calendarPortfolioLink">Ver minha carteira</button></aside></div>' +
+      '<p class="nota">Datas de pagamento e valores podem mudar conforme o comunicado oficial de cada emissor. Consulte também as relações com investidores antes de tomar decisões.</p>' +
+    '</article>'
+  );
+
+  function desenhar() {
+    var nomeMes = mes.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    $('#mNome').textContent = nomeMes.charAt(0).toLocaleUpperCase('pt-BR') + nomeMes.slice(1);
+    var grade = $('#calendarDays');
+    grade.replaceChildren();
+    var primeiroDia = mes.getDay();
+    var diasNoMes = new Date(mes.getFullYear(), mes.getMonth() + 1, 0).getDate();
+    var hoje = new Date();
+    for (var vazio = 0; vazio < primeiroDia; vazio++) {
+      var espaco = document.createElement('span');
+      espaco.className = 'calendar-day is-empty';
+      espaco.setAttribute('aria-hidden', 'true');
+      grade.appendChild(espaco);
+    }
+    for (var dia = 1; dia <= diasNoMes; dia++) {
+      var celula = document.createElement('span');
+      celula.className = 'calendar-day' +
+        (hoje.getFullYear() === mes.getFullYear() && hoje.getMonth() === mes.getMonth() && hoje.getDate() === dia ? ' is-today' : '');
+      celula.textContent = String(dia);
+      grade.appendChild(celula);
+    }
+    var posicoes = A.carteira || [];
+    var notaCarteira = $('#calendarPortfolio');
+    notaCarteira.textContent = posicoes.length
+      ? posicoes.length + (posicoes.length === 1 ? ' ativo cadastrado manualmente.' : ' ativos cadastrados manualmente.') + ' A agenda de pagamentos ainda não está disponível.'
+      : 'Nenhum ativo na carteira manual.';
   }
-  function calendario() {
-    $('#mNome').textContent = mes.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-    var meus = $('#mMeus').checked, tot = 0;
-    var ev = eventos(mes.getFullYear(), mes.getMonth()).filter(function (e) { return !meus || cart.some(function (p) { return p.t === e.a.t; }); });
-    $('#mLista').innerHTML = ev.map(function (e) {
-      var p = cart.filter(function (x) { return x.t === e.a.t; })[0], q = p ? p.q : 0; tot += e.valor * q;
-      return '<li class="expense"><span class="expense-info"><strong>Dia ' + e.dia + ' - ' + e.a.t + '</strong><small>' + e.tipo + (q ? ', ' + q + ' cotas/ações' : '') + '</small></span><span class="expense-value">' + brl(e.valor) + ' / unid.</span></li>';
-    }).join('') || '<li class="expenses-vazio">Nenhum provento previsto neste mês.</li>';
-    $('#mTotal').textContent = brl(tot);
-  }
-  $('#mAnt').addEventListener('click', function () { mes.setMonth(mes.getMonth() - 1); calendario(); });
-  $('#mProx').addEventListener('click', function () { mes.setMonth(mes.getMonth() + 1); calendario(); });
-  $('#mMeus').addEventListener('change', calendario);
-  document.addEventListener('bs-carteira', calendario);
-  calendario();
+
+  $('#mAnt').addEventListener('click', function () {
+    mes.setMonth(mes.getMonth() - 1);
+    desenhar();
+  });
+  $('#mProx').addEventListener('click', function () {
+    mes.setMonth(mes.getMonth() + 1);
+    desenhar();
+  });
+  $('#calendarPortfolioLink').addEventListener('click', function () {
+    if (window.BankSanNavegar) window.BankSanNavegar('carteira');
+  });
+  document.addEventListener('bs-carteira', desenhar);
+  desenhar();
 })();

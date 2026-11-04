@@ -34,12 +34,14 @@
       } catch (e) {}
     })();
   </script>
+  <script src="src/js/tradingview.js" defer></script>
   <script src="src/js/grafico.js" defer></script>
   <script src="src/js/cartoes.js" defer></script>
   <script src="src/js/inicio.js" defer></script>
   <script src="src/js/mercado-exemplo.js" defer></script>
   <script src="src/js/news-feed.js" defer></script>
   <script src="src/js/areas-base.js" defer></script>
+  <script src="src/js/graficos-mercado.js" defer></script>
   <script src="src/js/filtro-ativos.js" defer></script>
   <script src="src/js/carteira.js" defer></script>
   <script src="src/js/contas.js" defer></script>
@@ -66,6 +68,7 @@
         <button class="menu-item is-active" type="button" data-view="inicio">Início</button>
         <button class="menu-item" type="button" data-view="filtro">Filtro de ativos</button>
         <button class="menu-item" type="button" data-view="carteira">Minha carteira / Simulador</button>
+        <button class="menu-item" type="button" data-view="market-charts">Gráficos do mercado</button>
         <details class="menu-item" data-news-menu>
           <summary>Notícias</summary>
           <a href="#news-invest" class="submenu-item" data-view="noticias" data-news-tab="invest">Notícias de investimento</a>
@@ -87,7 +90,7 @@
             <header class="card-head">
               <div>
                 <h2>Meus investimentos</h2>
-                <p class="chart-name" id="chartName" style="color:var(--muted); font-size:.85rem; margin-top:2px;">Valor atual da carteira por ativo</p>
+                <p class="chart-name" id="chartName" style="color:var(--muted); font-size:.85rem; margin-top:2px;">Capital investido informado na carteira</p>
               </div>
             </header>
             <div class="chart-controls">

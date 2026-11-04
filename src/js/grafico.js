@@ -55,19 +55,21 @@
   }
 
   function dadosInvestimentos() {
-    var ativos = window.BankSanMercado ? window.BankSanMercado.ativos : [];
+    var ativosMercado = window.BankSanMarketSymbols || [];
+    var ativosExemplo = window.BankSanMercado ? window.BankSanMercado.ativos : [];
     var posicoes = carteira.map(function (posicao) {
-      var ativo = ativos.filter(function (item) { return item.t === posicao.t; })[0];
+      var ativo = ativosMercado.filter(function (item) { return item.ticker === posicao.t; })[0] ||
+        ativosExemplo.filter(function (item) { return item.t === posicao.t; })[0];
       return ativo ? {
-        nome: ativo.t,
-        valor: Number(ativo.preco) * Number(posicao.q),
-        detalhe: ativo.nome
+        nome: ativo.ticker || ativo.t,
+        valor: Number(posicao.pm) * Number(posicao.q),
+        detalhe: ativo.nome + ' • capital investido informado'
       } : null;
     }).filter(Boolean).sort(function (a, b) { return a.nome.localeCompare(b.nome); });
 
     return {
-      titulo: 'Meus investimentos',
-      subtitulo: posicoes.length ? 'Valor atual da carteira por ativo' : 'Adicione ativos à carteira para acompanhar seu total',
+      titulo: 'Capital investido',
+      subtitulo: posicoes.length ? 'Distribuição pelos preços médios informados por você • não é cotação atual' : 'Adicione ativos à carteira para acompanhar seu capital investido',
       resumo: posicoes.length + (posicoes.length === 1 ? ' ativo' : ' ativos'),
       total: posicoes.reduce(function (soma, posicao) { return soma + posicao.valor; }, 0),
       pontos: posicoes.map(function (posicao) {
@@ -104,27 +106,17 @@
   }
 
   function dadosBitcoin() {
-    var inicio = new Date(2025, 4, 1).getTime();
-    var fim = new Date(2026, 3, 30).getTime();
-    var pontos = btcHistorico.map(function (valor, indice) {
-      var data = new Date(inicio + (indice / (btcHistorico.length - 1)) * (fim - inicio));
-      var mes = data.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
-      return {
-        label: mes + " '" + String(data.getFullYear()).slice(-2),
-        valor: valor,
-        detalhe: 'Bitcoin (BTC/USD)'
-      };
-    });
-
     return {
       titulo: 'Bitcoin (BTC/USD)',
-      subtitulo: 'Histórico demonstrativo • mai/2025 a abr/2026 • valores em USD',
-      resumo: '12 meses',
-      total: btcHistorico[btcHistorico.length - 1],
-      pontos: pontos,
+      subtitulo: 'Gráfico interativo do TradingView • valores em USD',
+      resumo: 'BTC / USD',
+      total: null,
+      pontos: [],
       cor: '#F7931A',
       moeda: 'USD',
-      vazio: 'Histórico de Bitcoin indisponível'
+      widget: true,
+      simbolo: 'COINBASE:BTCUSD',
+      vazio: 'O gráfico do TradingView não está disponível agora'
     };
   }
 
@@ -147,12 +139,22 @@
   function desenhar(dados) {
     titulo.textContent = dados.titulo;
     chartName.textContent = dados.subtitulo;
-    valorTotal.textContent = formatarValor(dados.total, dados.moeda);
+    valorTotal.textContent = dados.total == null ? '—' : formatarValor(dados.total, dados.moeda);
     badgeResultado.textContent = dados.resumo;
     badgeResultado.style.color = dados.cor;
     badgeResultado.style.borderColor = dados.cor;
     if (cardGrafico) cardGrafico.style.setProperty('--trend', dados.cor);
 
+    if (dados.widget) {
+      if (!window.BankSanTradingView || !window.BankSanTradingView.montar(container, dados.simbolo, { interval: 'D' })) {
+        mostrarVazio(dados.vazio);
+        return;
+      }
+      container.classList.add('chart-tradingview');
+      return;
+    }
+
+    container.classList.remove('chart-tradingview');
     if (!dados.pontos.length) {
       mostrarVazio(dados.vazio);
       return;

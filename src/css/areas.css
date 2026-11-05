@@ -261,6 +261,8 @@
 .market-chart-controls, .compare-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
 .market-chart-controls .btn, .compare-controls .btn { min-height: 42px; }
 .market-symbol-name, .compare-message { margin: 12px 0; color: var(--muted); font-size: .88rem; }
+.market-search-help { margin: -4px 0 12px; color: var(--muted); font-size: .82rem; }
+.market-chart-controls [aria-invalid="true"] { border-color: var(--down); }
 .compare-message.is-error { color: var(--down); }
 .market-widget { width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
 .market-widget-main { height: min(85vh, 1000px); min-height: 650px; }

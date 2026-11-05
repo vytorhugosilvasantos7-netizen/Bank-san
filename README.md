@@ -83,9 +83,10 @@ dizendo que o administrador consegue ver nome, e-mail e quando a conta está ati
 
 ## Gráficos de mercado
 
-- A área **Gráficos do mercado** e o comparador usam widgets de gráficos do TradingView e oferecem mais de 100 opções de ações brasileiras e americanas, FIIs, ETFs, índices, câmbio e Bitcoin.
-- Pesquise pelo ticker ou pelo nome da empresa. Para evitar misturar cotações em reais e dólares, o comparador aceita ativos apenas do mesmo mercado.
-- A atualização, o atraso e a disponibilidade dos dados dependem do instrumento, da bolsa e do TradingView; confirme o horário e a fonte no widget. O site não promete cotações em tempo real.
+- A área **Gráficos do mercado** e o comparador usam widgets do TradingView, com uma lista de símbolos frequentes e seletor de símbolos habilitado para procurar outros instrumentos/bolsas cobertos pelo provedor.
+- A lista rápida inclui ações brasileiras e americanas, FIIs, ETFs, índices, moedas, criptomoedas, commodities e contratos futuros. Símbolos adicionais podem ser digitados no formato `EXCHANGE:TICKER`; a disponibilidade depende do TradingView.
+- Widgets incorporados do TradingView podem exibir ações com atraso definido pelas bolsas; Forex e cripto são disponibilizados em tempo real. Um plano pago do TradingView não remove o atraso de dados de ações nos widgets. Para ações em tempo real em um site, o TradingView orienta contratar os dados diretamente com a bolsa. Confira a fonte/horário no próprio widget.
+- Referências oficiais: [configuração de gráficos avançados](https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/), [FAQ de dados dos widgets](https://www.tradingview.com/widget-docs/faq/data/), [cobertura de dados](https://www.tradingview.com/data-coverage/).
 - A carteira guarda a quantidade e o preço médio informados pelo usuário. O total mostrado é capital informado/investido, não uma avaliação atual baseada em cotações.
 - O TradingView não fornece a agenda de datas-com e pagamentos usada pelo calendário de proventos. A tela não gera datas ou valores fictícios; uma agenda oficial exige integrar uma fonte de proventos específica.
 - Referências: [widgets de gráficos do TradingView](https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/) e [documentação de soluções TradingView](https://www.tradingview.com/widget-docs/solutions/).

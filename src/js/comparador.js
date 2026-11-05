@@ -4,8 +4,10 @@
   var A = window.BankSanAreas;
   if (!A) return;
   var $ = A.$;
+  var classificarAtivo = window.BankSanMarketCategory;
   var ativos = (window.BankSanMarketSymbols || []).filter(function (item) {
-    return item.ticker !== 'BTCUSD' && item.ticker !== 'USDBRL';
+    var categoria = classificarAtivo ? classificarAtivo(item) : '';
+    return ['Ações B3', 'Ações EUA', 'FIIs', 'ETFs'].indexOf(categoria) !== -1;
   });
 
   function opcoes(id) {
@@ -25,7 +27,7 @@
     '</div>' +
     '<p class="compare-message" id="cmpMensagem" role="status" aria-live="polite"></p>' +
     '<div id="cmpGrafico" class="market-widget market-widget-compare" aria-label="Gráfico comparativo de empresas"></div>' +
-    '<p class="nota">A lista inclui ações, FIIs e ETFs brasileiros disponíveis no seletor. Os dados quantitativos demonstrativos do filtro de ativos não são usados neste comparador.</p>' +
+    '<p class="nota">A lista inclui ações brasileiras e americanas, FIIs e ETFs. Ações americanas e brasileiras podem usar moedas e horários diferentes; selecione ativos do mesmo mercado. Os dados demonstrativos do filtro de ativos não são usados neste comparador.</p>' +
   '</article>');
 
   function ativo(ticker) {

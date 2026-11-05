@@ -124,8 +124,33 @@
     { ticker: 'SPX', nome: 'S&P 500', simbolo: 'SP:SPX', tipo: 'índice', mercado: 'EUA' },
     { ticker: 'NDX', nome: 'Nasdaq 100', simbolo: 'NASDAQ:NDX', tipo: 'índice', mercado: 'EUA' },
     { ticker: 'DJI', nome: 'Dow Jones Industrial Average', simbolo: 'DJ:DJI', tipo: 'índice', mercado: 'EUA' },
+    { ticker: 'VIX', nome: 'CBOE Volatility Index', simbolo: 'CBOE:VIX', categoria: 'Índices' },
+    { ticker: 'DAX', nome: 'DAX 40', simbolo: 'XETR:DAX', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'FTSE', nome: 'FTSE 100', simbolo: 'FTSE:UKX', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'NI225', nome: 'Nikkei 225', simbolo: 'TVC:NI225', tipo: 'índice', mercado: 'Ásia' },
+    { ticker: 'HSI', nome: 'Hang Seng Index', simbolo: 'HSI:HSI', tipo: 'índice', mercado: 'Ásia' },
     { ticker: 'BTCUSD', nome: 'Bitcoin / Dólar', simbolo: 'COINBASE:BTCUSD' },
-    { ticker: 'USDBRL', nome: 'Dólar / Real', simbolo: 'FX_IDC:USDBRL' }
+    { ticker: 'ETHUSD', nome: 'Ethereum / Dólar', simbolo: 'COINBASE:ETHUSD', categoria: 'Criptomoedas' },
+    { ticker: 'SOLUSD', nome: 'Solana / Dólar', simbolo: 'COINBASE:SOLUSD', categoria: 'Criptomoedas' },
+    { ticker: 'XRPUSD', nome: 'XRP / Dólar', simbolo: 'BITSTAMP:XRPUSD', categoria: 'Criptomoedas' },
+    { ticker: 'BNBUSD', nome: 'BNB / Dólar', simbolo: 'BINANCE:BNBUSD', categoria: 'Criptomoedas' },
+    { ticker: 'BTCUSDT', nome: 'Bitcoin / Tether', simbolo: 'BINANCE:BTCUSDT', categoria: 'Criptomoedas' },
+    { ticker: 'ETHUSDT', nome: 'Ethereum / Tether', simbolo: 'BINANCE:ETHUSDT', categoria: 'Criptomoedas' },
+    { ticker: 'SOLUSDT', nome: 'Solana / Tether', simbolo: 'BINANCE:SOLUSDT', categoria: 'Criptomoedas' },
+    { ticker: 'USDBRL', nome: 'Dólar / Real', simbolo: 'FX_IDC:USDBRL', categoria: 'Câmbio' },
+    { ticker: 'EURUSD', nome: 'Euro / Dólar', simbolo: 'FX:EURUSD', categoria: 'Câmbio' },
+    { ticker: 'GBPUSD', nome: 'Libra / Dólar', simbolo: 'FX:GBPUSD', categoria: 'Câmbio' },
+    { ticker: 'USDJPY', nome: 'Dólar / Iene', simbolo: 'FX:USDJPY', categoria: 'Câmbio' },
+    { ticker: 'AUDUSD', nome: 'Dólar australiano / Dólar', simbolo: 'FX:AUDUSD', categoria: 'Câmbio' },
+    { ticker: 'USDCAD', nome: 'Dólar americano / Dólar canadense', simbolo: 'FX:USDCAD', categoria: 'Câmbio' },
+    { ticker: 'GOLD', nome: 'Ouro (spot)', simbolo: 'OANDA:XAUUSD', categoria: 'Commodities' },
+    { ticker: 'SILVER', nome: 'Prata (spot)', simbolo: 'OANDA:XAGUSD', categoria: 'Commodities' },
+    { ticker: 'CL1!', nome: 'Petróleo WTI (futuro contínuo)', simbolo: 'NYMEX:CL1!', categoria: 'Commodities' },
+    { ticker: 'GC1!', nome: 'Ouro (futuro contínuo)', simbolo: 'COMEX:GC1!', categoria: 'Commodities' },
+    { ticker: 'WIN1!', nome: 'Mini índice Bovespa (futuro contínuo)', simbolo: 'BMFBOVESPA:WIN1!', categoria: 'Futuros B3', mercado: 'Brasil' },
+    { ticker: 'WDO1!', nome: 'Mini dólar (futuro contínuo)', simbolo: 'BMFBOVESPA:WDO1!', categoria: 'Futuros B3', mercado: 'Brasil' },
+    { ticker: 'IND1!', nome: 'Índice Bovespa cheio (futuro contínuo)', simbolo: 'BMFBOVESPA:IND1!', categoria: 'Futuros B3', mercado: 'Brasil' },
+    { ticker: 'DOL1!', nome: 'Dólar cheio (futuro contínuo)', simbolo: 'BMFBOVESPA:DOL1!', categoria: 'Futuros B3', mercado: 'Brasil' }
   ];
 
   function ativo(ticker) {
@@ -137,31 +162,56 @@
     var encontrados = ativos.filter(function (item) {
       return item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === normalizado;
     });
-    return encontrados.length === 1 ? encontrados[0] : null;
+    if (encontrados.length === 1) return encontrados[0];
+    if (/^[A-Z0-9._-]+:[A-Z0-9._!-]+$/.test(upper)) {
+      return { ticker: upper, nome: 'Símbolo pesquisado', simbolo: upper };
+    }
+    return null;
+  }
+
+  function categoria(item) {
+    if (item.categoria) return item.categoria;
+    if (item.tipo === 'índice') return 'Índices';
+    if (item.mercado === 'EUA') return 'Ações EUA';
+    if (item.ticker === 'BTCUSD') return 'Criptomoedas';
+    if (item.ticker === 'USDBRL') return 'Câmbio';
+    if (['HGLG11', 'KNRI11', 'MXRF11', 'XPLG11', 'VISC11', 'HGRU11', 'CPTS11', 'GGRC11', 'TRXF11', 'KNCR11', 'HSML11'].indexOf(item.ticker) !== -1) return 'FIIs';
+    if (['BOVA11', 'IVVB11', 'SMAL11', 'DIVO11', 'GOLD11', 'HASH11', 'SPXI11'].indexOf(item.ticker) !== -1) return 'ETFs';
+    return 'Ações B3';
   }
   window.BankSanMarketSymbols = ativos.slice();
+  window.BankSanMarketCategory = categoria;
 
   function listaAtivos(id) {
-    return '<datalist id="' + id + '">' + ativos.map(function (item) {
+    return '<datalist id="' + id + '"></datalist>';
+  }
+
+  function atualizarSugestoes() {
+    var filtro = $('#marketClass').value;
+    $('#marketSymbols').innerHTML = ativos.filter(function (item) {
+      return filtro === 'Todos' || categoria(item) === filtro;
+    }).map(function (item) {
       return '<option value="' + item.ticker + '" label="' + item.nome + '"></option>';
-    }).join('') + '</datalist>';
+    }).join('');
   }
 
   var html = '<article class="card market-chart-card">' +
-    '<header class="card-head"><div><p class="area-eyebrow">MERCADO</p><h2>Gráficos do mercado</h2><p class="chart-name">Explore ' + ativos.length + ' opções: ações do Brasil e dos EUA, FIIs, ETFs, índices, Bitcoin e câmbio.</p></div></header>' +
-    '<p class="aviso-edu">Gráficos interativos fornecidos pelo TradingView. A disponibilidade e o atraso das cotações dependem do mercado e da bolsa; confirme o horário e a fonte no próprio gráfico. Conteúdo informativo, não é recomendação de investimento.</p>' +
-    '<div class="ctl market-chart-controls"><label for="marketTicker">Digite o ticker ou o nome completo da empresa<input id="marketTicker" list="marketSymbols" value="IBOV" autocomplete="off" spellcheck="false"></label><label for="marketInterval">Intervalo inicial<select id="marketInterval"><option value="1">1 minuto</option><option value="15">15 minutos</option><option value="60">1 hora</option><option value="D" selected>1 dia</option><option value="W">1 semana</option><option value="M">1 mês</option></select></label><button class="btn" type="button" id="marketApply">Abrir gráfico</button>' + listaAtivos('marketSymbols') + '</div>' +
+    '<header class="card-head"><div><p class="area-eyebrow">MERCADO</p><h2>Gráficos do mercado</h2><p class="chart-name">Explore ' + ativos.length + ' opções e use a busca do gráfico para encontrar outros ativos nas bolsas disponíveis.</p></div></header>' +
+    '<p class="aviso-edu">O widget do TradingView atualiza os gráficos enquanto estiver aberto. Atenção: por regra das bolsas, ações em widgets incorporados podem ter cotações atrasadas; câmbio e cripto são disponibilizados em tempo real. Um plano pago do TradingView não remove o atraso do widget de ações. Confira fonte e horário no gráfico. Conteúdo informativo, não é recomendação.</p>' +
+    '<div class="ctl market-chart-controls"><label for="marketClass">Filtrar mercado<select id="marketClass"><option>Todos</option><option>Ações B3</option><option>FIIs</option><option>ETFs</option><option>Ações EUA</option><option>Índices</option><option>Criptomoedas</option><option>Câmbio</option><option>Commodities</option><option>Futuros B3</option></select></label><label for="marketTicker">Buscar ticker, empresa ou símbolo (EXCHANGE:TICKER)<input id="marketTicker" list="marketSymbols" value="IBOV" autocomplete="off" spellcheck="false" placeholder="Ex.: PETR4, NVIDIA ou NASDAQ:GOOG"></label><label for="marketInterval">Intervalo inicial<select id="marketInterval"><option value="1">1 minuto</option><option value="15">15 minutos</option><option value="60">1 hora</option><option value="D" selected>1 dia</option><option value="W">1 semana</option><option value="M">1 mês</option></select></label><button class="btn" type="button" id="marketApply">Abrir gráfico</button>' + listaAtivos('marketSymbols') + '</div>' +
+    '<p class="market-search-help">Para buscar outros ativos do mundo todo, use o campo de símbolo no topo do próprio gráfico ou informe EXCHANGE:TICKER. A disponibilidade varia conforme a cobertura do TradingView.</p>' +
     '<p class="market-symbol-name" id="marketSymbolName" aria-live="polite">Ibovespa · BMFBOVESPA:IBOV</p>' +
     '<div id="marketChart" class="market-widget market-widget-main" aria-label="Gráfico interativo do ativo selecionado"></div>' +
     '</article>';
 
   A.view('market-charts', html);
+  atualizarSugestoes();
 
   function abrirGrafico() {
     var escolhido = ativo($('#marketTicker').value);
     if (!escolhido) {
       $('#marketTicker').setAttribute('aria-invalid', 'true');
-      $('#marketSymbolName').textContent = 'Escolha um ativo da lista de sugestões para abrir o gráfico.';
+      $('#marketSymbolName').textContent = 'Escolha uma sugestão ou informe um símbolo completo, por exemplo NASDAQ:GOOG.';
       return;
     }
     $('#marketTicker').removeAttribute('aria-invalid');
@@ -170,6 +220,7 @@
     window.BankSanTradingView.montar($('#marketChart'), escolhido.simbolo, { interval: $('#marketInterval').value });
   }
 
+  $('#marketClass').addEventListener('change', atualizarSugestoes);
   $('#marketApply').addEventListener('click', abrirGrafico);
   $('#marketTicker').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { e.preventDefault(); abrirGrafico(); }

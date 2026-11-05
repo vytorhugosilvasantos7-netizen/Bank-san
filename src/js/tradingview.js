@@ -3,7 +3,7 @@
   'use strict';
 
   function montar(container, simbolo, opcoes) {
-    if (!container || !/^[A-Z0-9._:-]+$/.test(simbolo)) return false;
+    if (!container || !/^[A-Z0-9._-]+:[A-Z0-9._!-]+$/.test(simbolo)) return false;
     opcoes = opcoes || {};
     container.replaceChildren();
 
@@ -21,7 +21,7 @@
       theme: document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
       style: '1',
       locale: 'br',
-      allow_symbol_change: false,
+      allow_symbol_change: true,
       calendar: false,
       support_host: 'https://www.tradingview.com',
       withdateranges: true,

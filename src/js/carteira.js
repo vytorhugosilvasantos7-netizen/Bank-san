@@ -4,7 +4,11 @@
   var A = window.BankSanAreas;
   if (!A) return;
   var $ = A.$;
-  var simbolos = (window.BankSanMarketSymbols || []).filter(function (item) { return item.mercado !== 'EUA'; });
+  var classificarAtivo = window.BankSanMarketCategory;
+  var simbolos = (window.BankSanMarketSymbols || []).filter(function (item) {
+    var categoria = classificarAtivo ? classificarAtivo(item) : '';
+    return ['Ações B3', 'FIIs', 'ETFs'].indexOf(categoria) !== -1;
+  });
   var brl = function (valor) {
     return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   };

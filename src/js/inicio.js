@@ -4,6 +4,14 @@
 
   // ---------- Troca de telas (Início e Configurações) ----------
   var menuItems = document.querySelectorAll('.menu-item[data-view]');
+  var sidebar = document.querySelector('.sidebar');
+  var menuToggle = document.getElementById('menuToggle');
+
+  function fecharMenu() {
+    if (!sidebar || !menuToggle) return;
+    sidebar.classList.remove('menu-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
 
   function mostrar(nome) {
     // consulta a cada troca porque as áreas são preenchidas por scripts separados
@@ -11,11 +19,23 @@
     menuItems.forEach(function (b) { b.classList.toggle('is-active', b.dataset.view === nome); });
     var menuNoticias = document.querySelector('[data-news-menu]');
     if (menuNoticias) menuNoticias.classList.toggle('is-active', nome === 'noticias');
+    fecharMenu();
     document.dispatchEvent(new CustomEvent('bs-view-change', { detail: nome }));
   }
   window.BankSanNavegar = mostrar;
   menuItems.forEach(function (b) {
     b.addEventListener('click', function () { mostrar(b.dataset.view); });
+  });
+  menuToggle.addEventListener('click', function () {
+    var aberto = menuToggle.getAttribute('aria-expanded') === 'true';
+    sidebar.classList.toggle('menu-open', !aberto);
+    menuToggle.setAttribute('aria-expanded', String(!aberto));
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+      fecharMenu();
+      menuToggle.focus();
+    }
   });
   document.querySelectorAll('.submenu-item[data-view]').forEach(function (link) {
     link.addEventListener('click', function (e) {

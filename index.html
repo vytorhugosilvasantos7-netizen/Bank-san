@@ -65,7 +65,11 @@
         <span class="profile-name">Seu nome</span>
       </button>
 
-      <nav class="menu" aria-label="Menu principal">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="primaryMenu">
+        <span class="menu-toggle-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Menu</span>
+      </button>
+      <nav class="menu" id="primaryMenu" aria-label="Menu principal">
         <button class="menu-item is-active" type="button" data-view="inicio">Início</button>
         <button class="menu-item" type="button" data-view="filtro">Filtro de ativos</button>
         <button class="menu-item" type="button" data-view="carteira">Minha carteira / Simulador</button>

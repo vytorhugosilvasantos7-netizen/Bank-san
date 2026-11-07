@@ -614,7 +614,26 @@
   .accounts-card .card-head { flex-direction: column; }
   .accounts-card .card-head > .btn-small { width: 100%; }
   .account-ledger-head { align-items: flex-start; flex-direction: column; }
-  .account-list { grid-template-columns: 1fr; }
+  .account-list {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+    margin-right: -16px;
+    overflow-x: auto;
+    padding: 2px 16px 12px 2px;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+  .account-tile {
+    min-height: 82px;
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+  .account-list::-webkit-scrollbar { height: 5px; }
+  .account-list::-webkit-scrollbar-thumb { border-radius: 999px; background: var(--line); }
 }
 @media (prefers-reduced-motion: reduce) {
   .asset-chip,
@@ -622,4 +641,59 @@
   .account-tile,
   .account-invest-track span,
   .account-expense-line { animation: none; transition: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+}
+
+@media (max-width: 650px) {
+  .news-card .news-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+  }
+  .news-card .news-head > div { min-width: 0; }
+  .news-card .news-head .section-subtitle { font-size: .82rem; line-height: 1.45; }
+  .news-card .news-refresh { min-height: 42px; padding: 8px 10px; }
+  .news-card .news-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .news-card .news-tabs {
+    display: flex;
+    flex-flow: row nowrap;
+    max-width: 100%;
+    gap: 7px;
+    overflow-x: auto;
+    padding: 2px 2px 9px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .news-card .news-tabs .tab {
+    width: auto;
+    min-height: 42px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+  .news-card .news-status { min-height: 1.3em; line-height: 1.4; }
+  .news-card .news-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .news-card .news-item {
+    min-width: 0;
+    min-height: 0;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+  }
+  .news-card .news-item--featured {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .news-card .news-image-wrap { width: 100%; }
+  .news-card .news-image { height: clamp(150px, 48vw, 210px); }
+  .news-card .news-item--featured h3 {
+    align-self: stretch;
+    font-size: 1.08rem;
+    line-height: 1.4;
+  }
+  .news-card .news-item-foot { margin-top: 2px; }
+  .news-card .news-foot { gap: 10px; margin-top: 14px; line-height: 1.5; }
 }

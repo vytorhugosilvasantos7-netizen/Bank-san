@@ -81,11 +81,11 @@ dizendo que o administrador consegue ver nome, e-mail e quando a conta está ati
 - Isso não conecta ao banco: não são solicitados login, senha bancária ou acesso à conta.
 - A carteira de investimentos é preenchida manualmente e salva no navegador. Ela é exibida como carteira geral, sem associação a um banco ou cartão; o preço médio e a quantidade são informados pelo usuário.
 
-## Gráficos de mercado
+## Bolsas de valores
 
-- A área **Gráficos do mercado** e o comparador usam widgets do TradingView, com uma lista de símbolos frequentes e seletor de símbolos habilitado para procurar outros instrumentos/bolsas cobertos pelo provedor.
-- A lista rápida inclui ações brasileiras e americanas, FIIs, ETFs, índices, moedas, criptomoedas, commodities e contratos futuros. Símbolos adicionais podem ser digitados no formato `EXCHANGE:TICKER`; a disponibilidade depende do TradingView.
-- Widgets incorporados do TradingView podem exibir ações com atraso definido pelas bolsas; Forex e cripto são disponibilizados em tempo real. Um plano pago do TradingView não remove o atraso de dados de ações nos widgets. Para ações em tempo real em um site, o TradingView orienta contratar os dados diretamente com a bolsa. Confira a fonte/horário no próprio widget.
+- A área **Bolsas** apresenta índices de diferentes regiões e as variações percentuais fornecidas pelo panorama de mercado do TradingView. A pessoa pode selecionar uma região e abrir um gráfico detalhado de um índice.
+- A busca rápida inclui índices brasileiros, americanos, latino-americanos, europeus, asiáticos e do Pacífico. Outros instrumentos podem ser procurados por símbolo no formato `EXCHANGE:TICKER`, conforme a cobertura do TradingView.
+- As cotações e variações são atualizadas pelo provedor, mas a disponibilidade e o atraso dependem da bolsa, do instrumento e das permissões de dados. Portanto, o site não promete dados de ações universalmente em tempo real; confira a fonte e o horário mostrados pelo widget. Para ações em tempo real em um site, pode ser necessário contratar os dados diretamente com a bolsa.
 - Referências oficiais: [configuração de gráficos avançados](https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/), [FAQ de dados dos widgets](https://www.tradingview.com/widget-docs/faq/data/), [cobertura de dados](https://www.tradingview.com/data-coverage/).
 - A carteira guarda a quantidade e o preço médio informados pelo usuário. O total mostrado é capital informado/investido, não uma avaliação atual baseada em cotações.
 - O TradingView não fornece a agenda de datas-com e pagamentos usada pelo calendário de proventos. A tela não gera datas ou valores fictícios; uma agenda oficial exige integrar uma fonte de proventos específica.

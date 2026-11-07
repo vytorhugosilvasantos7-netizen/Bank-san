@@ -279,6 +279,7 @@
 .compare-message.is-error { color: var(--down); }
 .market-widget { width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
 .market-widget-main { height: min(85vh, 1000px); min-height: 650px; }
+.market-overview-widget { height: 780px; min-height: 720px; }
 .market-widget-compare { height: min(80vh, 900px); min-height: 600px; }
 .tradingview-widget-container, .tradingview-widget-container__widget { width: 100%; height: 100%; }
 .tradingview-widget-copyright { padding: 6px 10px; font-size: .72rem; text-align: right; }
@@ -304,16 +305,40 @@
 .nav-mes .btn-small { min-width: 40px; }
 .chart-tradingview svg { display: none; }
 
+.exchange-dashboard { display: grid; gap: 20px; }
+.exchange-heading { align-items: flex-start; }
+.exchange-heading h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); }
+.exchange-heading .chart-name { max-width: 700px; margin-top: 6px; line-height: 1.55; }
+.exchange-data-label { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .75rem; }
+.exchange-data-label i { width: 8px; height: 8px; border-radius: 50%; background: var(--up); box-shadow: 0 0 10px color-mix(in srgb, var(--up), transparent 40%); }
+.exchange-disclaimer { margin: 0; line-height: 1.55; }
+.exchange-overview-section,
+.exchange-chart-section { display: grid; min-width: 0; gap: 12px; }
+.exchange-section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.exchange-section-head h3 { font-size: 1.05rem; }
+.exchange-section-head p:not(.area-eyebrow) { margin-top: 4px; color: var(--muted); font-size: .83rem; line-height: 1.5; }
+.exchange-chart-section { padding-top: 20px; border-top: 1px solid var(--line); }
+.exchange-chart-section .area-eyebrow { margin-bottom: 5px; }
+.exchange-dashboard .market-chart-controls { margin: 4px 0 0; }
+.exchange-dashboard .market-symbol-name { margin: 0; font-weight: 600; }
+
 @media (max-width: 700px) {
   .simulator-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .simulator-kpis { grid-template-columns: 1fr; }
   .calendar-layout { grid-template-columns: 1fr; }
   .calendar-day { min-height: 38px; margin: 1px; }
   .market-widget-main, .market-widget-compare { height: 76vh; min-height: 520px; }
+  .market-overview-widget { height: 1060px; min-height: 980px; }
+  .exchange-dashboard { gap: 16px; }
+  .exchange-chart-section { padding-top: 16px; }
+  .exchange-data-label { font-size: .68rem; }
 }
 @media (max-width: 420px) {
   .market-chart-controls, .compare-controls { grid-template-columns: 1fr; }
   .portfolio-summary { grid-template-columns: 1fr; }
+  .exchange-heading { flex-direction: column; }
+  .exchange-data-label { align-self: flex-start; }
+  .market-overview-widget { height: 1080px; min-height: 1000px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sim-total { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }

@@ -53,7 +53,7 @@
   A.view('carteira',
     '<header class="area-page-heading"><p class="area-eyebrow">PLANEJAMENTO</p><h2>Minha carteira / Simulador</h2><p>Acompanhe suas posições informadas e projete cenários de aportes.</p></header>' +
     '<article class="card portfolio-card"><header class="card-head"><div><h3>Posições da carteira</h3><p class="chart-name">Registro manual; não conectado à corretora.</p></div></header>' +
-    '<p class="aviso-edu">O valor investido abaixo usa a quantidade e o preço médio informados por você. Não é uma cotação de mercado nem o valor atual da carteira. Para ver gráficos de mercado, use a área “Gráficos do mercado”.</p>' +
+    '<p class="aviso-edu">O valor investido abaixo usa a quantidade e o preço médio informados por você. Não é uma cotação de mercado nem o valor atual da carteira. Para acompanhar índices e bolsas, use a área “Bolsas”.</p>' +
     '<form class="ctl portfolio-form" id="cForm"><label for="cAtivo">Ativo<select id="cAtivo">' + opcoes + '</select></label><label for="cQtd">Quantidade<input id="cQtd" type="number" min="0.000001" step="any" value="10" required></label><label for="cPm">Preço médio pago (R$)<input id="cPm" type="number" min="0.01" step="0.01" placeholder="Informe o preço médio" required></label><button class="btn" type="submit">Adicionar posição</button></form><p class="portfolio-status" id="cStatus" role="status" aria-live="polite"></p>' +
     '<div class="portfolio-summary"><div><small>Total investido informado</small><strong id="cTotal">R$ 0,00</strong></div><div><small>Ativos na carteira</small><strong id="cQuantidade">0</strong></div></div>' +
     '<div id="cGrafico" class="portfolio-allocation" role="img" aria-label="Distribuição do capital investido por ativo"></div>' +

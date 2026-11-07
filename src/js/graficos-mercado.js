@@ -6,7 +6,7 @@
   if (!A) return;
   var $ = A.$;
   var ativos = [
-    { ticker: 'IBOV', nome: 'Ibovespa', simbolo: 'BMFBOVESPA:IBOV', tipo: 'índice' },
+    { ticker: 'IBOV', nome: 'Ibovespa', simbolo: 'BMFBOVESPA:IBOV', tipo: 'índice', mercado: 'Brasil' },
     { ticker: 'PETR4', nome: 'Petrobras PN', simbolo: 'BMFBOVESPA:PETR4' },
     { ticker: 'PETR3', nome: 'Petrobras ON', simbolo: 'BMFBOVESPA:PETR3' },
     { ticker: 'VALE3', nome: 'Vale ON', simbolo: 'BMFBOVESPA:VALE3' },
@@ -124,11 +124,32 @@
     { ticker: 'SPX', nome: 'S&P 500', simbolo: 'SP:SPX', tipo: 'índice', mercado: 'EUA' },
     { ticker: 'NDX', nome: 'Nasdaq 100', simbolo: 'NASDAQ:NDX', tipo: 'índice', mercado: 'EUA' },
     { ticker: 'DJI', nome: 'Dow Jones Industrial Average', simbolo: 'DJ:DJI', tipo: 'índice', mercado: 'EUA' },
+    { ticker: 'RUT', nome: 'Russell 2000', simbolo: 'RUSSELL:RUT', tipo: 'índice', mercado: 'EUA' },
+    { ticker: 'TSX', nome: 'S&P/TSX Composite', simbolo: 'TSX:TSX', tipo: 'índice', mercado: 'América do Norte' },
+    { ticker: 'IPSA', nome: 'IPSA · Chile', simbolo: 'BCS:IPSA', tipo: 'índice', mercado: 'América Latina' },
+    { ticker: 'IFIX', nome: 'Índice de Fundos Imobiliários', simbolo: 'BMFBOVESPA:IFIX', tipo: 'índice', mercado: 'Brasil' },
+    { ticker: 'IBRA', nome: 'Índice Brasil Amplo', simbolo: 'BMFBOVESPA:IBRA', tipo: 'índice', mercado: 'Brasil' },
     { ticker: 'VIX', nome: 'CBOE Volatility Index', simbolo: 'CBOE:VIX', categoria: 'Índices' },
     { ticker: 'DAX', nome: 'DAX 40', simbolo: 'XETR:DAX', tipo: 'índice', mercado: 'Europa' },
-    { ticker: 'FTSE', nome: 'FTSE 100', simbolo: 'FTSE:UKX', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'FTSE', nome: 'FTSE 100', simbolo: 'TVC:UKX', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'CAC40', nome: 'CAC 40 · França', simbolo: 'TVC:CAC40', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'STOXX50E', nome: 'EURO STOXX 50', simbolo: 'TVC:STOXX50E', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'IBEX35', nome: 'IBEX 35 · Espanha', simbolo: 'TVC:IBEX35', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'AEX', nome: 'AEX · Países Baixos', simbolo: 'TVC:AEX', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'FTMIB', nome: 'FTSE MIB · Itália', simbolo: 'TVC:FTMIB', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'OMXS30', nome: 'OMX Stockholm 30 · Suécia', simbolo: 'OMXSTO:OMXS30', tipo: 'índice', mercado: 'Europa' },
+    { ticker: 'SMI', nome: 'Swiss Market Index', simbolo: 'SIX:SMI', tipo: 'índice', mercado: 'Europa' },
     { ticker: 'NI225', nome: 'Nikkei 225', simbolo: 'TVC:NI225', tipo: 'índice', mercado: 'Ásia' },
     { ticker: 'HSI', nome: 'Hang Seng Index', simbolo: 'HSI:HSI', tipo: 'índice', mercado: 'Ásia' },
+    { ticker: 'SSE', nome: 'Shanghai Composite · China', simbolo: 'SSE:000001', tipo: 'índice', mercado: 'Ásia' },
+    { ticker: 'KOSPI', nome: 'KOSPI · Coreia do Sul', simbolo: 'KRX:KOSPI', tipo: 'índice', mercado: 'Ásia' },
+    { ticker: 'NIFTY', nome: 'Nifty 50 · Índia', simbolo: 'NSE:NIFTY', tipo: 'índice', mercado: 'Ásia' },
+    { ticker: 'SENSEX', nome: 'Sensex · Índia', simbolo: 'BSE:SENSEX', tipo: 'índice', mercado: 'Ásia' },
+    { ticker: 'XJO', nome: 'S&P/ASX 200 · Austrália', simbolo: 'ASX:XJO', tipo: 'índice', mercado: 'Pacífico' },
+    { ticker: 'NZ50G', nome: 'S&P/NZX 50 · Nova Zelândia', simbolo: 'NZX:NZ50G', tipo: 'índice', mercado: 'Pacífico' },
+    { ticker: 'TASI', nome: 'Tadawul All Share · Arábia Saudita', simbolo: 'TADAWUL:TASI', tipo: 'índice', mercado: 'Oriente Médio e África' },
+    { ticker: 'XU100', nome: 'BIST 100 · Turquia', simbolo: 'BIST:XU100', tipo: 'índice', mercado: 'Oriente Médio e África' },
+    { ticker: 'J203', nome: 'FTSE/JSE Top 40 · África do Sul', simbolo: 'JSE:J203', tipo: 'índice', mercado: 'Oriente Médio e África' },
     { ticker: 'BTCUSD', nome: 'Bitcoin / Dólar', simbolo: 'COINBASE:BTCUSD' },
     { ticker: 'ETHUSD', nome: 'Ethereum / Dólar', simbolo: 'COINBASE:ETHUSD', categoria: 'Criptomoedas' },
     { ticker: 'SOLUSD', nome: 'Solana / Dólar', simbolo: 'COINBASE:SOLUSD', categoria: 'Criptomoedas' },
@@ -187,21 +208,23 @@
   }
 
   function atualizarSugestoes() {
-    var filtro = $('#marketClass').value;
+    var regiao = $('#marketClass').value;
     $('#marketSymbols').innerHTML = ativos.filter(function (item) {
-      return filtro === 'Todos' || categoria(item) === filtro;
+      return categoria(item) === 'Índices' && (regiao === 'Todos' || item.mercado === regiao);
     }).map(function (item) {
       return '<option value="' + item.ticker + '" label="' + item.nome + '"></option>';
     }).join('');
   }
 
-  var html = '<article class="card market-chart-card">' +
-    '<header class="card-head"><div><p class="area-eyebrow">MERCADO</p><h2>Gráficos do mercado</h2><p class="chart-name">Explore ' + ativos.length + ' opções e use a busca do gráfico para encontrar outros ativos nas bolsas disponíveis.</p></div></header>' +
-    '<p class="aviso-edu">O widget do TradingView atualiza os gráficos enquanto estiver aberto. Atenção: por regra das bolsas, ações em widgets incorporados podem ter cotações atrasadas; câmbio e cripto são disponibilizados em tempo real. Um plano pago do TradingView não remove o atraso do widget de ações. Confira fonte e horário no gráfico. Conteúdo informativo, não é recomendação.</p>' +
-    '<div class="ctl market-chart-controls"><label for="marketClass">Filtrar mercado<select id="marketClass"><option>Todos</option><option>Ações B3</option><option>FIIs</option><option>ETFs</option><option>Ações EUA</option><option>Índices</option><option>Criptomoedas</option><option>Câmbio</option><option>Commodities</option><option>Futuros B3</option></select></label><label for="marketTicker">Buscar ticker, empresa ou símbolo (EXCHANGE:TICKER)<input id="marketTicker" list="marketSymbols" value="IBOV" autocomplete="off" spellcheck="false" placeholder="Ex.: PETR4, NVIDIA ou NASDAQ:GOOG"></label><label for="marketInterval">Intervalo inicial<select id="marketInterval"><option value="1">1 minuto</option><option value="15">15 minutos</option><option value="60">1 hora</option><option value="D" selected>1 dia</option><option value="W">1 semana</option><option value="M">1 mês</option></select></label><button class="btn" type="button" id="marketApply">Abrir gráfico</button>' + listaAtivos('marketSymbols') + '</div>' +
-    '<p class="market-search-help">Para buscar outros ativos do mundo todo, use o campo de símbolo no topo do próprio gráfico ou informe EXCHANGE:TICKER. A disponibilidade varia conforme a cobertura do TradingView.</p>' +
+  var html = '<article class="card market-chart-card exchange-dashboard">' +
+    '<header class="card-head exchange-heading"><div><p class="area-eyebrow">PAINEL GLOBAL</p><h2>Bolsas de valores</h2><p class="chart-name">Acompanhe índices e variações percentuais de bolsas de diferentes regiões do mundo.</p></div><span class="exchange-data-label"><i aria-hidden="true"></i> Dados do provedor</span></header>' +
+    '<p class="aviso-edu exchange-disclaimer">Cotações e variações são fornecidas pelo TradingView e podem mudar durante o pregão. A disponibilidade e o atraso dependem de cada bolsa e instrumento; confira o horário e a fonte apresentados no widget. Conteúdo informativo, não é recomendação de investimento.</p>' +
+    '<section class="exchange-overview-section" aria-labelledby="exchangeOverviewTitle"><header class="exchange-section-head"><div><h3 id="exchangeOverviewTitle">Panorama das bolsas pelo mundo</h3><p>Selecione uma região para conferir os principais índices, preços e variações do dia.</p></div></header><div id="marketOverview" class="market-widget market-overview-widget" aria-label="Índices e variações das bolsas por região"></div></section>' +
+    '<section class="exchange-chart-section" aria-labelledby="exchangeChartTitle"><header class="exchange-section-head"><div><p class="area-eyebrow">GRÁFICO INTERATIVO</p><h3 id="exchangeChartTitle">Pesquise uma bolsa ou índice</h3><p>Explore a lista ou informe o símbolo de outro mercado coberto pelo TradingView.</p></div></header>' +
+    '<div class="ctl market-chart-controls"><label for="marketClass">Região<select id="marketClass"><option value="Todos">Todas as regiões</option><option>Brasil</option><option>América do Norte</option><option>América Latina</option><option>Europa</option><option>Ásia</option><option>Pacífico</option><option>Oriente Médio e África</option><option>EUA</option></select></label><label for="marketTicker">Buscar índice ou símbolo da bolsa<input id="marketTicker" list="marketSymbols" value="IBOV" autocomplete="off" spellcheck="false" placeholder="Ex.: DAX, Nikkei ou EXCHANGE:TICKER"></label><label for="marketInterval">Período do gráfico<select id="marketInterval"><option value="1">1 minuto</option><option value="15">15 minutos</option><option value="60">1 hora</option><option value="D" selected>1 dia</option><option value="W">1 semana</option><option value="M">1 mês</option></select></label><button class="btn" type="button" id="marketApply">Ver gráfico</button>' + listaAtivos('marketSymbols') + '</div>' +
+    '<p class="market-search-help">A busca rápida lista índices. Para outros instrumentos negociados em bolsa, digite o código completo EXCHANGE:TICKER, se disponível no TradingView.</p>' +
     '<p class="market-symbol-name" id="marketSymbolName" aria-live="polite">Ibovespa · BMFBOVESPA:IBOV</p>' +
-    '<div id="marketChart" class="market-widget market-widget-main" aria-label="Gráfico interativo do ativo selecionado"></div>' +
+    '<div id="marketChart" class="market-widget market-widget-main" aria-label="Gráfico interativo do índice selecionado"></div></section>' +
     '</article>';
 
   A.view('market-charts', html);
@@ -226,6 +249,9 @@
     if (e.key === 'Enter') { e.preventDefault(); abrirGrafico(); }
   });
   document.addEventListener('bs-view-change', function (e) {
-    if (e.detail === 'market-charts' && !$('#marketChart').hasChildNodes()) abrirGrafico();
+    if (e.detail === 'market-charts') {
+      if (!$('#marketOverview').hasChildNodes()) window.BankSanTradingView.montarPanorama($('#marketOverview'));
+      if (!$('#marketChart').hasChildNodes()) abrirGrafico();
+    }
   });
 })();

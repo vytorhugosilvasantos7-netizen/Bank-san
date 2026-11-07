@@ -303,6 +303,57 @@
 .calendar-empty, .calendar-portfolio-note { color: var(--muted); font-size: .82rem; }
 .calendar-agenda .btn-small { margin-top: 12px; }
 .nav-mes .btn-small { min-width: 40px; }
+.calendar-heading { align-items: flex-start; }
+.calendar-heading h2 { font-size: clamp(1.45rem, 3vw, 2rem); }
+.calendar-heading .chart-name { max-width: 620px; margin-top: 5px; line-height: 1.5; }
+.calendar-data-note { margin: 0; line-height: 1.55; }
+.calendar-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.calendar-kpis > div { display: grid; gap: 6px; min-width: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.calendar-kpis span { color: var(--muted); font-size: .78rem; }
+.calendar-kpis strong { font-size: clamp(1rem, 2.2vw, 1.3rem); overflow-wrap: anywhere; }
+.calendar-month { align-self: start; }
+.calendar-month-head, .calendar-agenda-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.calendar-month-head { color: var(--muted); font-size: .78rem; }
+.calendar-month-head [hidden] { display: none; }
+.calendar-weekdays { margin-bottom: 6px; }
+.calendar-day { position: relative; min-width: 0; padding: 5px 2px; background: transparent; font: inherit; cursor: pointer; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
+.calendar-day:not(.is-empty):hover { border-color: var(--line); background: color-mix(in srgb, var(--text), transparent 94%); transform: translateY(-1px); }
+.calendar-day:focus-visible { outline: 2px solid var(--up); outline-offset: 1px; }
+.calendar-day.is-selected { border-color: var(--up); background: color-mix(in srgb, var(--up), transparent 89%); }
+.calendar-day.is-today { border-color: var(--up); font-weight: 700; }
+.calendar-day.has-event { color: var(--up); font-weight: 700; }
+.calendar-day small { display: grid; width: 17px; height: 17px; place-items: center; margin-top: 2px; border-radius: 50%; background: var(--up); color: var(--bg); font-size: .64rem; line-height: 1; }
+.calendar-legend { display: flex; align-items: center; gap: 7px; margin-top: 10px; color: var(--muted); font-size: .75rem; }
+.calendar-legend i { width: 8px; height: 8px; border-radius: 50%; background: var(--up); }
+.calendar-agenda { padding: 16px; }
+.calendar-agenda-head { align-items: flex-start; }
+.calendar-agenda-head .area-eyebrow { margin-bottom: 3px; }
+.calendar-agenda-head h3 { margin: 0; }
+.calendar-agenda-head .btn-small { flex: 0 0 auto; margin: 0; }
+.calendar-agenda-list { display: grid; gap: 10px; }
+.calendar-event { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 11px; animation: calendar-event-in .24s ease both; }
+.calendar-event-head, .calendar-event-value { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.calendar-event-head strong { font-size: .95rem; }
+.calendar-event-type { padding: 3px 7px; border-radius: 999px; background: color-mix(in srgb, var(--up), transparent 90%); color: var(--up); font-size: .68rem; }
+.calendar-event-date { margin-top: 5px; color: var(--muted); font-size: .77rem; }
+.calendar-event-value { flex-direction: column; gap: 3px; margin-top: 10px; font-size: .8rem; }
+.calendar-event-value span { color: var(--muted); }
+.calendar-event-remove { margin-top: 9px; color: var(--muted); font-size: .74rem; }
+.calendar-event-remove:hover { border-color: var(--down); color: var(--down); }
+.calendar-empty { margin: 0; padding: 18px 10px; border: 1px dashed var(--line); border-radius: 10px; text-align: center; line-height: 1.5; }
+.calendar-form-details { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.calendar-form-details > summary { cursor: pointer; font-weight: 650; }
+.calendar-form-details[open] > summary { margin-bottom: 14px; color: var(--up); }
+.calendar-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: 12px; }
+.calendar-form label { display: grid; gap: 6px; color: var(--muted); font-size: .8rem; }
+.calendar-form input, .calendar-form select { width: 100%; min-height: 42px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); color: var(--text); font: inherit; }
+.calendar-form .btn { min-height: 42px; }
+.calendar-form .btn:disabled { cursor: not-allowed; opacity: .5; }
+.calendar-form-note, .calendar-status { color: var(--muted); font-size: .78rem; line-height: 1.5; }
+.calendar-status { min-height: 1.2em; margin: 0; }
+.calendar-status.is-error { color: var(--down); }
+.calendar-form-note { margin: 10px 0 0; }
+@keyframes calendar-event-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 .chart-tradingview svg { display: none; }
 
 .exchange-dashboard { display: grid; gap: 20px; }
@@ -332,6 +383,9 @@
   .exchange-dashboard { gap: 16px; }
   .exchange-chart-section { padding-top: 16px; }
   .exchange-data-label { font-size: .68rem; }
+  .calendar-layout { grid-template-columns: 1fr; }
+  .calendar-kpis { gap: 8px; }
+  .calendar-kpis > div { padding: 12px 10px; }
 }
 @media (max-width: 420px) {
   .market-chart-controls, .compare-controls { grid-template-columns: 1fr; }
@@ -339,10 +393,18 @@
   .exchange-heading { flex-direction: column; }
   .exchange-data-label { align-self: flex-start; }
   .market-overview-widget { height: 1080px; min-height: 1000px; }
+  .calendar-heading { flex-direction: column; }
+  .calendar-heading .nav-mes { align-self: stretch; justify-content: space-between; }
+  .calendar-form { grid-template-columns: 1fr; }
+  .calendar-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .calendar-kpis > div { gap: 5px; padding: 9px 8px; }
+  .calendar-kpis span { font-size: .68rem; line-height: 1.25; }
+  .calendar-kpis strong { font-size: .95rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sim-total { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
   .allocation-track span { transition: none; }
+  .calendar-day, .calendar-event { animation: none; transition: none; }
 }
 
 .view.is-active > .card {
